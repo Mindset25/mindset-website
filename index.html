@@ -4,19 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mindset - Nova Coleção</title>
+  <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
   <header>
     <nav>
       <div class="logo">
         <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
       </div>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars" style="color: #000000;"></i>
+      </div>      
       <ul>
         <li><a href="colecao.html">Coleção</a></li>
         <li><a href="personalize.html">Personalize</a></li>
         <li><a href="sobre.html">Sobre</a></li>
         <li><a href="contato.html">Contato</a></li>
+        <li><a href="cart.html"><i class="fa-solid fa-cart-shopping" style="color: #000000;"></i></a></li>
       </ul>
     </nav>
   </header>
@@ -33,19 +39,19 @@
     <h2>Produtos em Destaque</h2>
     <div class="produtos">
       <div class="produto">
-        <img src="img/produto1.jpg" alt="Chapéu Urbano">
+        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
         <h3>Chapéu Urbano</h3>
         <p>Estilo moderno com toque minimalista.</p>
         <a href="colecao.html" class="btn">Comprar</a>
       </div>
       <div class="produto">
-        <img src="img/produto2.jpg" alt="Chapéu Clássico">
+        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
         <h3>Chapéu Clássico</h3>
         <p>Um clássico repaginado para o mundo urbano.</p>
         <a href="colecao.html" class="btn">Comprar</a>
       </div>
       <div class="produto">
-        <img src="img/produto3.jpg" alt="Chapéu Exclusivo">
+        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
         <h3>Edição Exclusiva</h3>
         <p>Para quem busca autenticidade sem limites.</p>
         <a href="colecao.html" class="btn">Comprar</a>
@@ -61,5 +67,13 @@
       <a href="#">Pinterest</a>
     </div>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      document.querySelector("nav ul").classList.toggle("show");
+    }
+  </script>
+  
+
 </body>
 </html>
