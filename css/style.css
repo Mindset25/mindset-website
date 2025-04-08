@@ -4,7 +4,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
+html, body {
+  width: 100%;
+  overflow-x: hidden;
   font-family: 'Inter', sans-serif;
   background-color: #f4f4f4;
   color: #222;
@@ -124,6 +126,7 @@ footer .socials a {
 footer .socials a:hover {
   text-decoration: underline;
 }
+
 /* mobile styles */
 @media (max-width: 768px) {
   .hero h1 {
@@ -140,7 +143,8 @@ footer .socials a:hover {
   }
 
   .produto {
-    width: 90%;
+    width: 100%;
+    max-width: 300px;
   }
 }
 .menu-toggle {
@@ -165,18 +169,20 @@ footer .socials a:hover {
   }
 
   nav ul {
-    position: absolute;
-    top: 70px;
-    right: -220px;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 220px;
     background: #ffffff;
     flex-direction: column;
-    width: 200px;
-    padding: 1rem;
+    padding: 2rem 1rem;
     transition: right 0.3s ease-in-out;
     border-radius: 0 0 0 10px;
     z-index: 1000;
+    overflow-y: auto;
   }
-
+  
   nav ul.show {
     right: 0;
   }
