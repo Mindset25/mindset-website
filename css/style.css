@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +7,7 @@
 html, body {
   width: 100%;
   overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f4f4f4;
   color: #222;
 }
@@ -526,7 +526,7 @@ footer {
   background: #ffffff;
   color: #000000;
   padding: 2rem 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 footer h2 {
   font-size: 1.5rem;
@@ -617,7 +617,7 @@ footer h2 {
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 2rem 1rem;
-  gap: 2rem;
+  gap: 1.5rem;
   text-align: center;
 }
 
