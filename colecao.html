@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coleção Mindset</title>
+  <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="announcement-bar">
+    Frete grátis em compras acima de 50€! 🧢
+  </div>
+
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
+      </div>
+
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars" style="color: #000000;"></i>
+      </div>  
+
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="colecao.html?colecao=urban">Urban</a></li>
+        <li><a href="colecao.html?colecao=classic">Clássicos</a></li>
+        <li><a href="colecao.html?colecao=exclusivos">Exclusivos</a></li>
+        <li><a href="personalize.html">Personalize</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <i class="fas fa-search" id="search-icon" style="color: #000000" onclick="toggleSearch()"></i>
+        <i class="fa-solid fa-cart-shopping" style="color: #000000" id="cart-icon" onclick="toggleCart()"></i>
+        <input type="text" id="search-input" placeholder="Procurar..." />
+      </div>
+    </nav>
+  </header>
+
+  <section class="colecao-banner">
+    <h1>Coleção 2025</h1>
+    <p>Inspire-se com os novos modelos da Mindset.</p>
+  </section>
+
+  <section class="galeria-produtos">
+        <h2>Destaques</h2>
+        <div id="lista-produtos" class="produtos"></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Mindset. Todos os direitos reservados.</p>
+    <div class="socials">
+      <a href="#">Instagram</a> |
+      <a href="#">TikTok</a> |
+      <a href="#">Pinterest</a>
+    </div>
+  </footer>
+
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>O Meu Carrinho</h3>
+      <button onclick="toggleCart()" class="close-cart">&times;</button>
+    </div>
+    <div class="cart-content">
+      <p>O seu carrinho está vazio.</p>
+    </div>
+  </div>
+
+  <script>
+function toggleMenu() {
+  const nav = document.querySelector("nav ul");
+  const cart = document.getElementById("cartSidebar");
+  const body = document.body;
+
+  // Fecha o carrinho se estiver aberto
+  if (cart && cart.classList.contains("show")) {
+    cart.classList.remove("show");
+  }
+
+  nav.classList.toggle("show");
+  body.classList.toggle("menu-aberto");
+}
+
+function toggleSearch() {
+      document.getElementById("search-input").classList.toggle("show");
+    }
+
+    function toggleCart() {
+  const cart = document.getElementById("cartSidebar");
+  const nav = document.querySelector("nav ul");
+  const body = document.body;
+
+  if (nav.classList.contains("show")) {
+    nav.classList.remove("show");
+    body.classList.remove("menu-aberto");
+  }
+
+  cart.classList.toggle("show");
+  body.classList.toggle("carrinho-ativo");
+}
+    
+  </script>
+  
+<!-- SCRIPT PRODUTOS -->
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const colecaoAtual = urlParams.get('colecao') || "urban";
+    const container = document.getElementById("lista-produtos");
+  
+    fetch("produtos.json")
+      .then(response => {
+        console.log("Resposta do fetch:", response);
+        if (!response.ok) throw new Error("Erro ao carregar produtos.json");
+        return response.json();
+      })
+      .then(produtos => {
+        console.log("Produtos carregados:", produtos);
+  
+        const produtosFiltrados = produtos.filter(p => p.colecao === colecaoAtual);
+        console.log("Coleção atual:", colecaoAtual);
+        console.log("Produtos filtrados:", produtosFiltrados);
+  
+        if (produtosFiltrados.length === 0) {
+          container.innerHTML = "<p>Nenhum produto encontrado para essa coleção.</p>";
+        } else {
+          produtosFiltrados.forEach(produto => {
+            const div = document.createElement("div");
+            div.classList.add("produto");
+            div.innerHTML = `
+              <img src="${produto.imagem}" alt="${produto.nome}">
+              <h3>${produto.nome}</h3>
+              <p>${produto.descricao}</p>
+              <strong>${produto.preco}</strong>
+            `;
+            container.appendChild(div);
+          });
+        }
+      })
+      .catch(error => {
+        container.innerHTML = "<p>Erro ao carregar os produtos.</p>";
+        console.error("Erro ao buscar produtos.json:", error);
+      });
+  </script>
+  
+</body>
+</html>
+

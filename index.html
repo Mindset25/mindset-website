@@ -9,21 +9,35 @@
 </head>
 
 <body>
+  <div class="announcement-bar">
+    Frete grátis em compras acima de 50€! 🧢
+  </div>
   <header>
     <nav>
+      
       <div class="logo">
         <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
       </div>
+
       <div class="menu-toggle" onclick="toggleMenu()">
         <i class="fa-solid fa-bars" style="color: #000000;"></i>
-      </div>      
-      <ul>
-        <li><a href="colecao.html">Coleção</a></li>
+      </div>  
+
+      <ul class="nav-links">
+        <li><a href="colecao.html?colecao=urban">Urban</a></li>
+        <li><a href="colecao.html?colecao=classic">Clássicos</a></li>
+        <li><a href="colecao.html?colecao=exclusivos">Exclusivos</a></li>
         <li><a href="personalize.html">Personalize</a></li>
         <li><a href="sobre.html">Sobre</a></li>
         <li><a href="contato.html">Contato</a></li>
-        <li><a href="cart.html"><i class="fa-solid fa-cart-shopping" style="color: #000000;"></i></a></li>
       </ul>
+
+      <div class="nav-actions">
+        <i class="fas fa-search" style="color: #000000;" id="search-icon" onclick="toggleSearch()"></i>
+        <i class="fa-solid fa-cart-shopping" style="color: #000000" id="cart-icon" onclick="toggleCart()"></i>
+        <input type="text" id="search-input" placeholder="Procurar..." />
+      </div>
+
     </nav>
   </header>
 
@@ -34,6 +48,29 @@
       <a href="colecao.html" class="btn">Ver Coleção</a>
     </div>
   </section>
+
+  <section class="colecoes">
+    <h2>Escolha por Coleção</h2>
+    <div class="grade-colecoes">
+      <a href="colecao.html?colecao=urban" class="colecao">
+        <img src="img/denimtrucker.jpg" alt="Coleção Urban">
+        <h3>Mindset Urban</h3>
+      </a>
+      <a href="colecao.html?colecao=classic" class="colecao">
+        <img src="img/denimtrucker.jpg" alt="Coleção Clássica">
+        <h3>Mindset Classics</h3>
+      </a>
+      <a href="colecao.html?colecao=exclusivos" class="colecao">
+        <img src="img/denimtrucker.jpg" alt="Coleção Premium">
+        <h3>Mindset Exclusives</h3>
+      </a>
+      <a href="colecao.html?colecao=exclusivos" class="colecao">
+        <img src="img/denimtrucker.jpg" alt="Coleção Premium">
+        <h3>Mindset Exclusives</h3>
+      </a>
+    </div>
+  </section>
+  
 
   <section class="destaques">
     <h2>Produtos em Destaque</h2>
@@ -68,12 +105,53 @@
     </div>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      document.querySelector("nav ul").classList.toggle("show");
-    }
-  </script>
+  <!-- CART SIDEBAR -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>O Meu Carrinho</h3>
+      <button onclick="toggleCart()" class="close-cart">&times;</button>
+    </div>
+    <div class="cart-content">
+      <p>O seu carrinho está vazio.</p>
+    </div>
+  </div>
   
+
+
+<!-- JAVASCRIPT -->
+<script>
+function toggleMenu() {
+  const nav = document.querySelector("nav ul");
+  const cart = document.getElementById("cartSidebar");
+  const body = document.body;
+
+  // Fecha o carrinho se estiver aberto
+  if (cart && cart.classList.contains("show")) {
+    cart.classList.remove("show");
+  }
+
+  nav.classList.toggle("show");
+  body.classList.toggle("menu-aberto");
+}
+
+function toggleSearch() {
+    document.getElementById("search-input").classList.toggle("show");
+  }
+
+  function toggleCart() {
+  const cart = document.getElementById("cartSidebar");
+  const nav = document.querySelector("nav ul");
+  const body = document.body;
+
+  if (nav.classList.contains("show")) {
+    nav.classList.remove("show");
+    body.classList.remove("menu-aberto");
+  }
+
+  cart.classList.toggle("show");
+  body.classList.toggle("carrinho-ativo");
+}
+</script>
 
 </body>
 </html>

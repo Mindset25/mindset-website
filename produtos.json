@@ -1,0 +1,24 @@
+[
+    {
+      "nome": "Chapéu Urbano",
+      "descricao": "Design moderno para o dia a dia.",
+      "imagem": "img/denimtrucker.jpg",
+      "preco": "R$ 89,90",
+      "colecao": "urban"
+    },
+    {
+      "nome": "Chapéu Clássico",
+      "descricao": "Elegância e estilo em cada detalhe.",
+      "imagem": "img/denimtrucker.jpg",
+      "preco": "R$ 99,90",
+      "colecao": "classic"
+    },
+    {
+      "nome": "Chapéu Exclusivo",
+      "descricao": "Peça única para quem busca autenticidade.",
+      "imagem": "img/denimtrucker.jpg",
+      "preco": "R$ 109,90",
+      "colecao": "exclusivos"
+    }
+  ]
+  
