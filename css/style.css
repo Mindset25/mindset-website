@@ -68,7 +68,7 @@ nav {
 #search-icon {
   color: #fff;
   cursor: pointer;
-  font-size: 1.8rem;
+  gap: 1rem;
 }
 
 #search-input {
@@ -262,7 +262,8 @@ body.menu-aberto #menu-overlay {
 
   #search-icon,
   #cart-icon i {
-    font-size: 1.8rem;
+    height: 32px;
+    gap: 1rem;
   }
 }
 #cart-icon {
@@ -368,11 +369,13 @@ body.menu-aberto #menu-overlay {
 }
 .menu-toggle {
   display: block;
-  font-size: 1.8rem;
   cursor: pointer;
   color: #fff;
   z-index: 1001;
   position: relative;
+}
+.menu-toggle img {
+  height: 50px;
 }
 
 body.menu-aberto .menu-toggle {

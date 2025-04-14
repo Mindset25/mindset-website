@@ -57,62 +57,9 @@
 
     </nav>
   </header>
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Estilo que Transforma</h1>
-      <p>Conheça a nova coleção urbana da Mindset</p>
-      <a href="colecao.html" class="btn">Ver Coleção</a>
-    </div>
+  <section class="pagina-produto" id="pagina-produto">
+    <!-- Conteúdo será carregado via JavaScript -->
   </section>
-
-  <section class="colecoes">
-    <h2>Escolha por Coleção</h2>
-    <div class="grade-colecoes">
-      <a href="colecao.html?colecao=urban" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Urban">
-        <h3>Mindset Urban</h3>
-      </a>
-      <a href="colecao.html?colecao=classic" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Clássica">
-        <h3>Mindset Classics</h3>
-      </a>
-      <a href="colecao.html?colecao=exclusivos" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Premium">
-        <h3>Mindset Exclusives</h3>
-      </a>
-      <a href="colecao.html?colecao=exclusivos" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Premium">
-        <h3>Mindset Exclusives</h3>
-      </a>
-    </div>
-  </section>
-  
-
-  <section class="destaques">
-    <h2>Bestsellers</h2>
-    <div class="produtos">
-      <div class="produto">
-        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
-        <h3>Chapéu Urbano</h3>
-        <p>Estilo moderno com toque minimalista.</p>
-        <a href="produto.html?nome=Chapéu Urbano" class="btn">Comprar</a>
-      </div>
-      <div class="produto">
-        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
-        <h3>Chapéu Clássico</h3>
-        <p>Um clássico repaginado para o mundo urbano.</p>
-        <a href="colecao.html" class="btn">Comprar</a>
-      </div>
-      <div class="produto">
-        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
-        <h3>Edição Exclusiva</h3>
-        <p>Para quem busca autenticidade sem limites.</p>
-        <a href="colecao.html" class="btn">Comprar</a>
-      </div>
-    </div>
-  </section>
-
   <footer>
 
     <hr class="separador">
@@ -199,6 +146,85 @@
   
 <!-- JAVASCRIPT -->
 <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    
+    function adicionarAoCarrinho(produto) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+      const index = cart.findIndex(item => item.nome === produto.nome);
+    
+      if (index >= 0) {
+        cart[index].quantidade += 1;
+      } else {
+        cart.push({
+          nome: produto.nome,
+          preco: parseFloat(produto.preco.replace('€', '').replace(',', '.')),
+          imagem: produto.imagem,
+          quantidade: 1
+        });
+      }
+    
+      localStorage.setItem("cart", JSON.stringify(cart));
+    
+      alert(`"${produto.nome}" foi adicionado ao carrinho.`);
+    }
+    
+    async function renderProduto() {
+      const nomeProduto = decodeURIComponent(getQueryParam('nome'));
+    
+      try {
+        const response = await fetch('produtos.json');
+        const produtos = await response.json();
+    
+        const produto = produtos.find(p => p.nome === nomeProduto);
+    
+        const container = document.getElementById('pagina-produto');
+    
+        if (!produto) {
+          container.innerHTML = '<p>Produto não encontrado.</p>';
+          return;
+        }
+    
+        container.innerHTML = `
+          <div class="produto-detalhe">
+            <div class="imagens-produto">
+              <img src="${produto.imagem}" alt="${produto.nome}" class="imagem-principal">
+            </div>
+            <div class="info-produto">
+              <h1>${produto.nome}</h1>
+              <p class="preco">${produto.preco}</p>
+              <p class="descricao">${produto.descricao}</p>
+    
+              <label for="tamanho">Tamanho:</label>
+              <select id="tamanho" name="tamanho">
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>Único</option>
+              </select>
+    
+              <button class="btn-comprar" id="btn-comprar">Adicionar ao Carrinho</button>
+            </div>
+          </div>
+        `;
+    
+        document.getElementById('btn-comprar').addEventListener('click', () => {
+          adicionarAoCarrinho(produto);
+        });
+    
+      } catch (error) {
+        document.getElementById('pagina-produto').innerHTML = '<p>Erro ao carregar produto.</p>';
+        console.error('Erro ao carregar JSON:', error);
+      }
+    }
+    
+    renderProduto();
+    </script>
+    
+<script>
   document.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector("ul.nav-links");
     const capsMenu = document.getElementById("capsMenu");
@@ -253,3 +279,4 @@
 
 </body>
 </html>
+  
