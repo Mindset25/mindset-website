@@ -45,6 +45,7 @@ nav {
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s;
+  white-space: nowrap;
 }
 
 .nav-links li a:hover {
@@ -96,6 +97,21 @@ nav ul {
 .logo h2 {
   font-weight: bold;
   font-size: 1.5rem;
+}
+#menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* sombra preta translúcida */
+  z-index: 1000;
+}
+
+/* Mostrar overlay apenas quando menu está aberto */
+body.menu-aberto #menu-overlay {
+  display: block;
 }
 /* --------------------------------------------HERO -----------------------------------------------------------*/
 
@@ -234,7 +250,21 @@ nav ul {
   margin-bottom: 1rem;
 }
 /* --------------------------------------------CART SIDEBAR -----------------------------------------------------------*/
+@media (max-width: 768px) {
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1001;
+    margin-left: auto;
+    padding-left: 2rem;
+  }
 
+  #search-icon,
+  #cart-icon i {
+    font-size: 1.8rem;
+  }
+}
 #cart-icon {
   font-size: 1.8rem;
   color: #fff;
@@ -311,6 +341,9 @@ nav ul {
   nav {
     height: 40px; /* Increased navigation height */
   }
+  .close-menu {
+    display: none !important;
+  }
 }
 
 
@@ -358,29 +391,32 @@ nav ul {
     top: 0;
     left: -100%;
     height: 100%;
-    width: 50%;
+    width: 80%;
     background: #ffffff;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     justify-content: flex-start;
-    font-size: 1.5rem;
-    padding: 2rem 1rem;
+    font-size: 1.4rem;
     transition: left 0.3s ease-in-out;
-    border-radius: 0 0 0 10px;
-    z-index: 1000;
+    z-index: 1002;
     display: flex;
+    border-radius: 0 10px 10px 0;
+    padding: 5rem 0rem 0rem 0rem;
+    gap: 1rem;
   }
   .nav-links li a {
     color: #000000;
     text-decoration: none;
     font-weight: 600;
+    display: block;
+    width: 50%;
   }
 
   nav ul.show ~ .menu-toggle {
     display: none;
   }
 
-nav ul.show {
+  nav ul.show {
     left: 0;
   }
   nav {
@@ -396,6 +432,27 @@ nav ul.show {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+  }
+  .close-menu {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    z-index: 1003;
+  }
+  .nav-links.show .close-menu,
+  .close-menu {
+    display: block;
+  }
+  .subcolecao-menu.show {
+    left: 0;
+    display: flex;
   }
 }
 
@@ -525,7 +582,7 @@ nav ul.show {
 footer {
   background: #ffffff;
   color: #000000;
-  padding: 2rem 1rem;
+  padding: 2rem 2.5rem;
   font-family: 'Roboto', sans-serif;
 }
 footer h2 {
@@ -597,8 +654,10 @@ footer h2 {
 }
 
 .footer-bottom {
-  text-align: center;
+  text-align: left;
+  justify-content: flex-start;
   margin-top: 1rem;
+  padding: 2rem 2.5rem;
 }
 
 .payment-icons img {
@@ -614,11 +673,11 @@ footer h2 {
 
 .footer-quick-links {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  padding: 2rem 1rem;
+  padding: 2rem 2.5rem;
   gap: 1.5rem;
-  text-align: center;
+  text-align: left;
 }
 
 .quick-column {
@@ -660,6 +719,107 @@ footer h2 {
   margin: 2rem auto;
   width: 95%;
 }
+
+/* CSS PARA MENU DESLIZANTE */
+.has-submenu {
+  position: relative;
+}
+
+.has-submenu .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 999;
+  min-width: 180px;
+  flex-direction: column;
+}
+
+.has-submenu:hover .submenu {
+  display: flex;
+}
+
+.submenu li {
+  list-style: none;
+}
+
+.submenu li a {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.submenu li a:hover {
+  background-color: #f5f5f5;
+}
+
+.subcolecao-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 80%;
+  background: #ffffff;
+  flex-direction: column;
+  padding: 5rem 0rem 0rem 2rem;
+  transition: left 0.3s ease-in-out;
+  z-index: 1003;
+}
+
+.subcolecao-menu.show {
+  left: 0;
+  display: flex;
+}
+
+.subcolecao-menu li {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.subcolecao-menu li.voltar {
+  font-size: 1.2rem;
+  color: #e63946;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.subcolecao-menu li a {
+  color: #000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+
+@media (min-width: 769px) {
+  .subcolecao-menu {
+    display: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .submenu-toggle::after {
+    content: "→";
+    float: right;
+    font-size:0rem;
+    margin-left: 0rem; 
+    color: #888;
+  }
+
+  .submenu-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 
 
 

@@ -14,7 +14,7 @@
   </div>
   <header>
     <nav>
-      
+      <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
       <div class="logo">
         <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
       </div>
@@ -24,17 +24,32 @@
       </div>  
 
       <ul class="nav-links">
-        <li><a href="colecao.html?colecao=urban">Urban</a></li>
-        <li><a href="colecao.html?colecao=classic">Clássicos</a></li>
-        <li><a href="colecao.html?colecao=exclusivos">Exclusivos</a></li>
-        <li><a href="personalize.html">Personalize</a></li>
-        <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="contato.html">Contato</a></li>
+        <li><a href="colecao.html?colecao=New">New & Featured</a></li>
+        <li><a href="colecao.html?colecao=all">Shop All</a></li>
+        <li class="has-submenu">
+          <a href="colecao.html?colecao=caps" class="submenu-toggle">Caps</a>
+          <ul class="submenu">
+            <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+            <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+            <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+          </ul>
+        </li>        
+        <li><a href="colecao.html?colecao=COLLABS">Collabs</a></li>
+        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+      </ul>
+      <!-- Novo menu mobile para CAPS -->
+      <ul class="subcolecao-menu" id="capsMenu">
+        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+        <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+        <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+        <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
       </ul>
 
       <div class="nav-actions">
         <i class="fas fa-search" style="color: #000000;" id="search-icon" onclick="toggleSearch()"></i>
-        <i class="fa-solid fa-cart-shopping" style="color: #000000" id="cart-icon" onclick="toggleCart()"></i>
+        <a href="cart.html" id="cart-icon">
+          <i class="fa-solid fa-cart-shopping" style="color: #000000"></i>
+        </a>
         <input type="text" id="search-input" placeholder="Procurar..." />
       </div>
 
@@ -180,55 +195,59 @@
     </div>
   </footer>
   
-  
-
-  <!-- CART SIDEBAR -->
-  <div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-      <h3>O Meu Carrinho</h3>
-      <button onclick="toggleCart()" class="close-cart">&times;</button>
-    </div>
-    <div class="cart-content">
-      <p>O seu carrinho está vazio.</p>
-    </div>
-  </div>
-  
-
-
 <!-- JAVASCRIPT -->
 <script>
-function toggleMenu() {
-  const nav = document.querySelector("nav ul");
-  const cart = document.getElementById("cartSidebar");
-  const body = document.body;
+  document.addEventListener("DOMContentLoaded", () => {
+    const nav = document.querySelector("ul.nav-links");
+    const capsMenu = document.getElementById("capsMenu");
+    const capsLink = document.querySelector(".submenu-toggle");
+    const body = document.body;
+  
+    // Abrir menu de subcoleções
+    if (capsLink) {
+      capsLink.addEventListener("click", (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          nav.classList.remove("show");
+          capsMenu.classList.add("show");
+          body.classList.add("menu-aberto");
+        }
+      });
+    }
+  
+    // Voltar ao menu principal
+    window.voltarMenu = function () {
+      capsMenu.classList.remove("show");
+      nav.classList.add("show");
+      body.classList.add("menu-aberto");
+    };
+  
+    // Fechar tudo com o botão "✕"
+    window.fecharMenuMobile = function () {
+      nav.classList.remove("show");
+      capsMenu.classList.remove("show");
+      body.classList.remove("menu-aberto");
+    };
+  
+    // Toggle menu principal
+    window.toggleMenu = function () {
+      const cart = document.getElementById("cartSidebar");
+      if (cart && cart.classList.contains("show")) {
+        cart.classList.remove("show");
+      }
+      nav.classList.toggle("show");
+      capsMenu.classList.remove("show");
+      body.classList.toggle("menu-aberto");
+    };
+  
+    // Toggle lupa
+    window.toggleSearch = function () {
+      document.getElementById("search-input").classList.toggle("show");
+    };
+  });
+  </script>
+  
 
-  // Fecha o carrinho se estiver aberto
-  if (cart && cart.classList.contains("show")) {
-    cart.classList.remove("show");
-  }
-
-  nav.classList.toggle("show");
-  body.classList.toggle("menu-aberto");
-}
-
-function toggleSearch() {
-    document.getElementById("search-input").classList.toggle("show");
-  }
-
-  function toggleCart() {
-  const cart = document.getElementById("cartSidebar");
-  const nav = document.querySelector("nav ul");
-  const body = document.body;
-
-  if (nav.classList.contains("show")) {
-    nav.classList.remove("show");
-    body.classList.remove("menu-aberto");
-  }
-
-  cart.classList.toggle("show");
-  body.classList.toggle("carrinho-ativo");
-}
-</script>
 
 </body>
 </html>

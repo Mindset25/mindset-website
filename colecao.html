@@ -52,11 +52,86 @@
   </section>
 
   <footer>
-    <p>&copy; 2025 Mindset. Todos os direitos reservados.</p>
+
+    <hr class="separador">
+    <!-- Primeira parte: newsletter, redes e contato -->
+    <h2>10% DE DESCONTO NA INSCRIÇÂO DAS NOSSAS NEWSLETTERS!</h2>
+    <div class="footer-top">
+    <!-- Newsletter -->
+  <div class="newsletter">
+  <form>
+    <input type="email" placeholder="EMAIL" required>
+  </form>
+  </div>
+
+<!-- Telemóvel -->
+    <div class="contacto">
+  <form>
+    <input type="tel" placeholder="NÚMERO DE TELEMÓVEL" required>
+  </form>
+    </div>
+
+    <!-- Redes sociais -->
     <div class="socials">
-      <a href="#">Instagram</a> |
-      <a href="#">TikTok</a> |
-      <a href="#">Pinterest</a>
+      <div class="icons-circulares">
+        <a href="#" class="icon-wrapper" aria-label="Instagram">
+          <img src="img/black-instagram-icon.png" alt="Instagram" />
+        </a>
+        <a href="#" class="icon-wrapper" aria-label="TikTok">
+          <img src="img/tiktok-icon.png" alt="TikTok" />
+        </a>
+        <a href="#" class="icon-wrapper" aria-label="Whatsapp">
+          <img src="img/whatsapp-icon.png" alt="Whatsapp" />
+        </a>
+        <a href="#" class="icon-wrapper" aria-label="Facebook">
+          <img src="img/facebook-square-black-icon.png" alt="Facebook" />
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-quick-links">
+    <div class="quick-column">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#">Coleção</a></li>
+        <li><a href="#">Personalize</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+      </ul>
+    </div>
+  
+    <div class="quick-column">
+      <h4>Políticas</h4>
+      <ul>
+        <li><a href="#">Privacidade</a></li>
+        <li><a href="#">Termos de Serviço</a></li>
+        <li><a href="#">Reembolsos</a></li>
+      </ul>
+    </div>
+  
+    <div class="quick-column">
+      <h4>Suporte</h4>
+      <ul>
+        <li><a href="#">Ajuda</a></li>
+        <li><a href="#">Envios</a></li>
+        <li><a href="#">Trocas</a></li>
+        <li><a href="#">Fale Conosco</a></li>
+      </ul>
+    </div>
+  </div>
+
+    <!-- Segunda parte: pagamentos e direitos -->
+    <div class="footer-bottom">
+      <div class="pagamentos">
+        <h3>Pagamentos Aceitos</h3>
+        <div class="payment-icons">
+          <img src="visa.png" alt="Visa" />
+          <img src="pix.png" alt="Pix" />
+          <!-- Outros ícones -->
+        </div>
+      </div>
+      <p>&copy; 2025 Mindset. Todos os direitos reservados.</p>
     </div>
   </footer>
 
@@ -107,44 +182,47 @@ function toggleSearch() {
   
 <!-- SCRIPT PRODUTOS -->
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const colecaoAtual = urlParams.get('colecao') || "urban";
-    const container = document.getElementById("lista-produtos");
-  
-    fetch("produtos.json")
-      .then(response => {
-        console.log("Resposta do fetch:", response);
-        if (!response.ok) throw new Error("Erro ao carregar produtos.json");
-        return response.json();
-      })
-      .then(produtos => {
-        console.log("Produtos carregados:", produtos);
-  
-        const produtosFiltrados = produtos.filter(p => p.colecao === colecaoAtual);
-        console.log("Coleção atual:", colecaoAtual);
-        console.log("Produtos filtrados:", produtosFiltrados);
-  
-        if (produtosFiltrados.length === 0) {
-          container.innerHTML = "<p>Nenhum produto encontrado para essa coleção.</p>";
+  const urlParams = new URLSearchParams(window.location.search);
+  const colecaoAtual = urlParams.get('colecao') || "urban";
+  const container = document.getElementById("lista-produtos");
+
+  fetch("produtos.json")
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao carregar produtos.json");
+      return response.json();
+    })
+    .then(produtos => {
+      // Filtra produtos que têm a coleção atual dentro do array (ou string antiga)
+      const produtosFiltrados = produtos.filter(p => {
+        if (Array.isArray(p.colecao)) {
+          return p.colecao.includes(colecaoAtual);
         } else {
-          produtosFiltrados.forEach(produto => {
-            const div = document.createElement("div");
-            div.classList.add("produto");
-            div.innerHTML = `
-              <img src="${produto.imagem}" alt="${produto.nome}">
-              <h3>${produto.nome}</h3>
-              <p>${produto.descricao}</p>
-              <strong>${produto.preco}</strong>
-            `;
-            container.appendChild(div);
-          });
+          return p.colecao === colecaoAtual;
         }
-      })
-      .catch(error => {
-        container.innerHTML = "<p>Erro ao carregar os produtos.</p>";
-        console.error("Erro ao buscar produtos.json:", error);
       });
-  </script>
+
+      if (produtosFiltrados.length === 0) {
+        container.innerHTML = "<p>Nenhum produto encontrado para essa coleção.</p>";
+      } else {
+        produtosFiltrados.forEach(produto => {
+          const div = document.createElement("div");
+          div.classList.add("produto");
+          div.innerHTML = `
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <h3>${produto.nome}</h3>
+            <p>${produto.descricao}</p>
+            <strong>${produto.preco}</strong>
+          `;
+          container.appendChild(div);
+        });
+      }
+    })
+    .catch(error => {
+      container.innerHTML = "<p>Erro ao carregar os produtos.</p>";
+      console.error("Erro ao buscar produtos.json:", error);
+    });
+</script>
+
   
 </body>
 </html>

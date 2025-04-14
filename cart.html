@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Carrinho - Mindset</title>
+  <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/cart.css" />
+  <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="announcement-bar">
+    Frete grátis em compras acima de 50€! 🍙
+  </div>
+
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
+      </div>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fa-solid fa-bars" style="color: #000000;"></i>
+      </div>  
+      <ul class="nav-links">
+        <li><a href="colecao.html?colecao=New">New & Featured</a></li>
+        <li><a href="colecao.html?colecao=all">Shop All</a></li>
+        <li class="has-submenu">
+          <a href="colecao.html?colecao=caps" class="submenu-toggle">Caps</a>
+          <ul class="submenu">
+            <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+            <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+            <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+          </ul>
+        </li>        
+        <li><a href="colecao.html?colecao=COLLABS">Collabs</a></li>
+        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+      </ul>
+      <ul class="subcolecao-menu" id="capsMenu">
+        <li class="voltar" onclick="voltarMenu()">← Voltar</li>
+        <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+        <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+        <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+      </ul>
+      <div class="nav-actions">
+        <i class="fas fa-search" style="color: #000000;" id="search-icon" onclick="toggleSearch()"></i>
+        <a href="cart.html" id="cart-icon">
+          <i class="fa-solid fa-cart-shopping" style="color: #000000"></i>
+        </a>
+        <input type="text" id="search-input" placeholder="Procurar..." />
+      </div>
+    </nav>
+  </header>
+
+  <section class="cart-page">
+    <div class="container">
+      <h1>O Meu Carrinho</h1>
+      <p><a href="index.html">Início</a> > Carrinho</p>
+
+      <div class="cart-items" id="cart-items">
+        <!-- Itens do carrinho serão inseridos aqui via JavaScript -->
+      </div>
+
+      <div class="cart-summary">
+        <h3>Total: <span id="cart-total">R$ 0,00</span></h3>
+        <a href="#" class="btn">Finalizar Compra</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <hr class="separador">
+    <h2>10% DE DESCONTO NA INSCRIÇÂO DAS NOSSAS NEWSLETTERS!</h2>
+    <div class="footer-top">
+      <div class="newsletter">
+        <form><input type="email" placeholder="EMAIL" required></form>
+      </div>
+      <div class="contacto">
+        <form><input type="tel" placeholder="NÚMERO DE TELEMÓVEL" required></form>
+      </div>
+      <div class="socials">
+        <div class="icons-circulares">
+          <a href="#" class="icon-wrapper"><img src="img/black-instagram-icon.png" alt="Instagram"></a>
+          <a href="#" class="icon-wrapper"><img src="img/tiktok-icon.png" alt="TikTok"></a>
+          <a href="#" class="icon-wrapper"><img src="img/whatsapp-icon.png" alt="Whatsapp"></a>
+          <a href="#" class="icon-wrapper"><img src="img/facebook-square-black-icon.png" alt="Facebook"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-quick-links">
+      <div class="quick-column">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#">Coleção</a></li>
+          <li><a href="#">Personalize</a></li>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+      <div class="quick-column">
+        <h4>Políticas</h4>
+        <ul>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">Termos de Serviço</a></li>
+          <li><a href="#">Reembolsos</a></li>
+        </ul>
+      </div>
+      <div class="quick-column">
+        <h4>Suporte</h4>
+        <ul>
+          <li><a href="#">Ajuda</a></li>
+          <li><a href="#">Envios</a></li>
+          <li><a href="#">Trocas</a></li>
+          <li><a href="#">Fale Conosco</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="pagamentos">
+        <h3>Pagamentos Aceitos</h3>
+        <div class="payment-icons">
+          <img src="visa.png" alt="Visa" />
+          <img src="pix.png" alt="Pix" />
+        </div>
+      </div>
+      <p>&copy; 2025 Mindset. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS GLOBAIS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const nav = document.querySelector("ul.nav-links");
+      const capsMenu = document.getElementById("capsMenu");
+      const capsLink = document.querySelector(".submenu-toggle");
+      const body = document.body;
+    
+      // Abrir menu de subcoleções
+      if (capsLink) {
+        capsLink.addEventListener("click", (e) => {
+          if (window.innerWidth <= 768) {
+            e.preventDefault();
+            nav.classList.remove("show");
+            capsMenu.classList.add("show");
+            body.classList.add("menu-aberto");
+          }
+        });
+      }
+    
+      // Voltar ao menu principal
+      window.voltarMenu = function () {
+        capsMenu.classList.remove("show");
+        nav.classList.add("show");
+        body.classList.add("menu-aberto");
+      };
+    
+      // Fechar tudo com o botão "✕"
+      window.fecharMenuMobile = function () {
+        nav.classList.remove("show");
+        capsMenu.classList.remove("show");
+        body.classList.remove("menu-aberto");
+      };
+    
+      // Toggle menu principal
+      window.toggleMenu = function () {
+        const cart = document.getElementById("cartSidebar");
+        if (cart && cart.classList.contains("show")) {
+          cart.classList.remove("show");
+        }
+        nav.classList.toggle("show");
+        capsMenu.classList.remove("show");
+        body.classList.toggle("menu-aberto");
+      };
+    
+      // Toggle lupa
+      window.toggleSearch = function () {
+        document.getElementById("search-input").classList.toggle("show");
+      };
+    });
+    // Sistema de carrinho com LocalStorage
+    document.addEventListener("DOMContentLoaded", function () {
+    const itemsContainer = document.getElementById("cart-items");
+    const totalSpan = document.getElementById("cart-total");
+
+    function atualizarCarrinho(cart) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      itemsContainer.innerHTML = "";
+      let subtotal = 0;
+      const shipping = 9.90;
+
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = '<p>O seu carrinho está vazio.</p>';
+        totalSpan.textContent = "0,00€";
+        document.querySelector(".cart-summary").innerHTML = '<p>Subtotal:0,00€</p><p>Envio:0,00€</p><h3>Total:0,00€</h3>';
+        return;
+      }
+
+      cart.forEach((produto, index) => {
+        const div = document.createElement("div");
+        div.classList.add("produto");
+        div.innerHTML = `
+          <img src="${produto.imagem}" alt="${produto.nome}">
+          <div>
+            <h3>${produto.nome}</h3>
+            <p>Preço unitário: € ${produto.preco.toFixed(2).replace('.', ',')}</p>
+            <label>Qtd: <input type="number" min="1" value="${produto.quantidade}" data-index="${index}" class="qtd-input"></label>
+            <button data-index="${index}" class="remover-btn">Remover</button>
+            <p><strong>Subtotal: € ${(produto.preco * produto.quantidade).toFixed(2).replace('.', ',')}</strong></p>
+          </div>
+        `;
+        itemsContainer.appendChild(div);
+        subtotal += produto.preco * produto.quantidade;
+      });
+
+      const total = subtotal + shipping;
+      document.querySelector(".cart-summary").innerHTML = `
+        <p>Subtotal: € ${subtotal.toFixed(2).replace('.', ',')}</p>
+        <p>Envio: € ${shipping.toFixed(2).replace('.', ',')}</p>
+        <h3>Total: € ${total.toFixed(2).replace('.', ',')}</h3>
+        <a href="#" class="btn">Finalizar Compra</a> 
+      `;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    atualizarCarrinho(cart);
+
+    itemsContainer.addEventListener("input", function (e) {
+      if (e.target.classList.contains("qtd-input")) {
+        const index = e.target.dataset.index;
+        const novaQtd = parseInt(e.target.value);
+        if (novaQtd > 0) {
+          cart[index].quantidade = novaQtd;
+          atualizarCarrinho(cart);
+        }
+      }
+    });
+
+    itemsContainer.addEventListener("click", function (e) {
+      if (e.target.classList.contains("remover-btn")) {
+        const index = e.target.dataset.index;
+        cart.splice(index, 1);
+        atualizarCarrinho(cart);
+      }
+    });
+  });
+    </script>
+</body>
+</html>
