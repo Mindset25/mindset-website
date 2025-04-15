@@ -375,7 +375,7 @@ body.menu-aberto #menu-overlay {
   position: relative;
 }
 .menu-toggle img {
-  height: 50px;
+  height: 32px;
 }
 
 body.menu-aberto .menu-toggle {
@@ -392,7 +392,7 @@ body.carrinho-ativo .menu-toggle {
 nav ul {
     position: fixed;
     top: 0;
-    left: -100%;
+    right: -100%;
     height: 100%;
     width: 80%;
     background: #ffffff;
@@ -400,10 +400,10 @@ nav ul {
     align-items: flex-start;
     justify-content: flex-start;
     font-size: 1.4rem;
-    transition: left 0.3s ease-in-out;
+    transition: right 0.3s ease-in-out;
     z-index: 1002;
     display: flex;
-    border-radius: 0 10px 10px 0;
+    border-radius: 10px 0 0 10px;
     padding: 5rem 0rem 0rem 0rem;
     gap: 1rem;
   }
@@ -420,7 +420,7 @@ nav ul {
   }
 
   nav ul.show {
-    left: 0;
+    right: 0;
   }
   nav {
     display: flex;
@@ -428,19 +428,19 @@ nav ul {
     justify-content: space-between;
     position: relative;
     padding: 0.5rem 1rem;
-    height: 80px;
+    height: 50px;
   }
   .logo {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    transform: none;
     z-index: 1000;
   }
   .close-menu {
     display: none;
     position: absolute;
     top: 1rem;
-    right: 1.2rem;
+    left: 1.2rem;
     background: none;
     border: none;
     font-size: 2rem;
@@ -767,7 +767,8 @@ footer h2 {
   display: none;
   position: fixed;
   top: 0;
-  left: 0;
+  left: auto;
+  right: -100%; /* esconde fora da tela */
   height: 100%;
   width: 80%;
   background: #ffffff;
@@ -778,7 +779,8 @@ footer h2 {
 }
 
 .subcolecao-menu.show {
-  left: 0;
+  right: 0;
+  left: auto;
   display: flex;
 }
 

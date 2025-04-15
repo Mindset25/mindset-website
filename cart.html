@@ -15,43 +15,47 @@
 
   <header>
     <nav>
-      <div class="logo">
-        <a href="index.html">
-            <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
-        </a>
-      </div>
-      <div class="menu-toggle" onclick="toggleMenu()">
-        <i class="fa-solid fa-bars" style="color: #000000;"></i>
-      </div>  
-      <ul class="nav-links">
-        <li><a href="colecao.html?colecao=New">New & Featured</a></li>
-        <li><a href="colecao.html?colecao=all">Shop All</a></li>
-        <li class="has-submenu">
-          <a href="colecao.html?colecao=caps" class="submenu-toggle">Caps</a>
-          <ul class="submenu">
-            <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
-            <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
-            <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
-          </ul>
-        </li>        
-        <li><a href="colecao.html?colecao=COLLABS">Collabs</a></li>
-        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
-      </ul>
-      <ul class="subcolecao-menu" id="capsMenu">
-        <li class="voltar" onclick="voltarMenu()">← Voltar</li>
-        <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
-        <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
-        <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
-        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
-      </ul>
-      <div class="nav-actions">
-        <i class="fas fa-search" style="color: #000000;" id="search-icon" onclick="toggleSearch()"></i>
-        <a href="cart.html" id="cart-icon">
-          <i class="fa-solid fa-cart-shopping" style="color: #000000"></i>
-        </a>
-        <input type="text" id="search-input" placeholder="Procurar..." />
-      </div>
-    </nav>
+        <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
+        <div class="logo">
+          <a href="index.html">
+            <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 44px;">
+          </a>
+        </div>
+        
+        <ul class="nav-links">
+          <li><a href="colecao.html?colecao=New">New & Featured</a></li>
+          <li><a href="colecao.html?colecao=all">Shop All</a></li>
+          <li class="has-submenu">
+            <a href="colecao.html?colecao=caps" class="submenu-toggle">Caps</a>
+            <ul class="submenu">
+              <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+              <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+              <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+            </ul>
+          </li>        
+          <li><a href="colecao.html?colecao=COLLABS">Collabs</a></li>
+          <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+        </ul>
+        <!-- Novo menu mobile para CAPS -->
+        <ul class="subcolecao-menu" id="capsMenu">
+          <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+          <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+          <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+          <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+        </ul>
+  
+        <div class="nav-actions">
+          <img src="img/search-line-icon.png" id="search-icon" alt="Pesquisar" onclick="toggleSearch()" style="cursor:pointer; height: 26px;">
+          <a href="cart.html" id="cart-icon">
+            <img src="img/bag-icon.png" alt="Carrinho" style="height: 26px;">
+          </a>
+          <input type="text" id="search-input" placeholder="Procurar..." />
+          <div class="menu-toggle" onclick="toggleMenu()">
+            <img src="img/three-horizontal-lines-outline-icon.png" alt="Menu" style="height: 26px; cursor: pointer;">
+          </div>
+        </div>
+  
+      </nav>
   </header>
 
   <section class="cart-page">
@@ -245,6 +249,57 @@
       }
     });
   });
+    </script>
+    <!-- SCRIPT MENU -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const nav = document.querySelector("ul.nav-links");
+          const capsMenu = document.getElementById("capsMenu");
+          const capsLink = document.querySelector(".submenu-toggle");
+          const body = document.body;
+        
+          // Abrir menu de subcoleções
+          if (capsLink) {
+            capsLink.addEventListener("click", (e) => {
+              if (window.innerWidth <= 768) {
+                e.preventDefault();
+                nav.classList.remove("show");
+                capsMenu.classList.add("show");
+                body.classList.add("menu-aberto");
+              }
+            });
+          }
+        
+          // Voltar ao menu principal
+          window.voltarMenu = function () {
+            capsMenu.classList.remove("show");
+            nav.classList.add("show");
+            body.classList.add("menu-aberto");
+          };
+        
+          // Fechar tudo com o botão "✕"
+          window.fecharMenuMobile = function () {
+            nav.classList.remove("show");
+            capsMenu.classList.remove("show");
+            body.classList.remove("menu-aberto");
+          };
+        
+          // Toggle menu principal
+          window.toggleMenu = function () {
+            const cart = document.getElementById("cartSidebar");
+            if (cart && cart.classList.contains("show")) {
+              cart.classList.remove("show");
+            }
+            nav.classList.toggle("show");
+            capsMenu.classList.remove("show");
+            body.classList.toggle("menu-aberto");
+          };
+        
+          // Toggle lupa
+          window.toggleSearch = function () {
+            document.getElementById("search-input").classList.toggle("show");
+          };
+        });
     </script>
 </body>
 </html>

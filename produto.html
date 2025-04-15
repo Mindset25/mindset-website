@@ -6,6 +6,7 @@
   <title>Mindset - Nova Coleção</title>
   <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/produto.css" />
 </head>
 
 <body>
@@ -14,48 +15,47 @@
   </div>
   <header>
     <nav>
-      <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
-      <div class="logo">
-        <a href="index.html">
-          <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 50px;">
-        </a>
-      </div>
-      
-      <div class="menu-toggle" onclick="toggleMenu()">
-        <img src="img/three-horizontal-lines-outline-icon.png" alt="Menu" style="height: 32px; cursor: pointer;">
-      </div>
-      
-      <ul class="nav-links">
-        <li><a href="colecao.html?colecao=New">New & Featured</a></li>
-        <li><a href="colecao.html?colecao=all">Shop All</a></li>
-        <li class="has-submenu">
-          <a href="colecao.html?colecao=caps" class="submenu-toggle">Caps</a>
-          <ul class="submenu">
-            <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
-            <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
-            <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
-          </ul>
-        </li>        
-        <li><a href="colecao.html?colecao=COLLABS">Collabs</a></li>
-        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
-      </ul>
-      <!-- Novo menu mobile para CAPS -->
-      <ul class="subcolecao-menu" id="capsMenu">
-        <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
-        <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
-        <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
-        <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <img src="img/search-line-icon.png" id="search-icon" alt="Pesquisar" onclick="toggleSearch()" style="cursor:pointer; height: 32px;">
-        <a href="cart.html" id="cart-icon">
-          <img src="img/bag-icon.png" alt="Carrinho" style="height: 32px;">
-        </a>
-        <input type="text" id="search-input" placeholder="Procurar..." />
-      </div>
-
-    </nav>
+        <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
+        <div class="logo">
+          <a href="index.html">
+            <img src="img/mindsetlogo.png" alt="Mindset Logo" style="height: 44px;">
+          </a>
+        </div>
+        
+        <ul class="nav-links">
+          <li><a href="colecao.html?colecao=New">New & Featured</a></li>
+          <li><a href="colecao.html?colecao=all">Shop All</a></li>
+          <li class="has-submenu">
+            <a href="colecao.html?colecao=caps" class="submenu-toggle">Caps</a>
+            <ul class="submenu">
+              <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+              <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+              <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+            </ul>
+          </li>        
+          <li><a href="colecao.html?colecao=COLLABS">Collabs</a></li>
+          <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+        </ul>
+        <!-- Novo menu mobile para CAPS -->
+        <ul class="subcolecao-menu" id="capsMenu">
+          <button class="close-menu" onclick="fecharMenuMobile()">✕</button>
+          <li><a href="colecao.html?colecao=trucker">Trucker</a></li>
+          <li><a href="colecao.html?colecao=bombazine">Bombazine</a></li>
+          <li><a href="colecao.html?colecao=canvas">Canvas</a></li>
+        </ul>
+  
+        <div class="nav-actions">
+          <img src="img/search-line-icon.png" id="search-icon" alt="Pesquisar" onclick="toggleSearch()" style="cursor:pointer; height: 26px;">
+          <a href="cart.html" id="cart-icon">
+            <img src="img/bag-icon.png" alt="Carrinho" style="height: 26px;">
+          </a>
+          <input type="text" id="search-input" placeholder="Procurar..." />
+          <div class="menu-toggle" onclick="toggleMenu()">
+            <img src="img/three-horizontal-lines-outline-icon.png" alt="Menu" style="height: 26px; cursor: pointer;">
+          </div>
+        </div>
+  
+      </nav>
   </header>
   <section class="pagina-produto" id="pagina-produto">
     <!-- Conteúdo será carregado via JavaScript -->
@@ -151,10 +151,9 @@
       return urlParams.get(param);
     }
     
-    function adicionarAoCarrinho(produto) {
+    function adicionarAoCarrinho(produto, tamanhoSelecionado) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    
-      const index = cart.findIndex(item => item.nome === produto.nome);
+      const index = cart.findIndex(item => item.nome === produto.nome && item.tamanho === tamanhoSelecionado);
     
       if (index >= 0) {
         cart[index].quantidade += 1;
@@ -163,117 +162,202 @@
           nome: produto.nome,
           preco: parseFloat(produto.preco.replace('€', '').replace(',', '.')),
           imagem: produto.imagem,
-          quantidade: 1
+          quantidade: 1,
+          tamanho: tamanhoSelecionado
         });
       }
     
       localStorage.setItem("cart", JSON.stringify(cart));
-    
-      alert(`"${produto.nome}" foi adicionado ao carrinho.`);
+      alert(`"${produto.nome}" adicionado ao carrinho!`);
     }
     
     async function renderProduto() {
       const nomeProduto = decodeURIComponent(getQueryParam('nome'));
+      const container = document.getElementById("pagina-produto");
     
       try {
         const response = await fetch('produtos.json');
         const produtos = await response.json();
-    
         const produto = produtos.find(p => p.nome === nomeProduto);
     
-        const container = document.getElementById('pagina-produto');
-    
         if (!produto) {
-          container.innerHTML = '<p>Produto não encontrado.</p>';
+          container.innerHTML = "<p>Produto não encontrado.</p>";
           return;
         }
+        let imagensAtuais = produto.imagens?.length ? produto.imagens : [produto.imagem];
     
         container.innerHTML = `
-          <div class="produto-detalhe">
-            <div class="imagens-produto">
-              <img src="${produto.imagem}" alt="${produto.nome}" class="imagem-principal">
-            </div>
+          <div class="container-produto">
+            <div class="galeria-imagens" id="galeria-imagens"></div>
+    
             <div class="info-produto">
               <h1>${produto.nome}</h1>
               <p class="preco">${produto.preco}</p>
+    
+              <div class="variacoes-cores" id="seletor-cores"></div>
+    
               <p class="descricao">${produto.descricao}</p>
     
-              <label for="tamanho">Tamanho:</label>
-              <select id="tamanho" name="tamanho">
-                <option>P</option>
-                <option>M</option>
-                <option>G</option>
-                <option>Único</option>
-              </select>
+              <div class="tamanhos">
+                <h4>Escolhe o teu tamanho</h4>
+                <div class="opcoes-tamanho">
+                  <button>P</button>
+                  <button>M</button>
+                  <button>G</button>
+                  <button>Único</button>
+                </div>
+              </div>
     
-              <button class="btn-comprar" id="btn-comprar">Adicionar ao Carrinho</button>
+              <button class="btn-comprar" disabled>Seleciona um tamanho</button>
+    
+              <div class="info-extra">
+                <p>Envio grátis para pedidos acima de 50€.</p>
+                <p>Devoluções fáceis em 30 dias.</p>
+              </div>
             </div>
           </div>
         `;
     
-        document.getElementById('btn-comprar').addEventListener('click', () => {
-          adicionarAoCarrinho(produto);
+        renderGaleria(imagensAtuais);
+    
+        // Seletor de cor (local, sem redirect)
+        if (produto.variacoes && produto.variacoes.length > 1) {
+          const seletor = document.getElementById('seletor-cores');
+          seletor.innerHTML = `
+            <h4>Seleciona uma cor:</h4>
+            <div class="opcoes-cores">
+              ${produto.variacoes.map((v, i) => `
+                <button 
+                  class="opcao-cor ${i === 0 ? 'ativo' : ''}" 
+                  data-index="${i}" 
+                  title="${v.cor}"
+                >
+                  <img src="${v.imagem}" alt="${v.cor}">
+                </button>
+              `).join('')}
+            </div>
+          `;
+    
+          const botoesCor = seletor.querySelectorAll('.opcao-cor');
+          botoesCor.forEach(btn => {
+            btn.addEventListener('click', () => {
+              const i = parseInt(btn.dataset.index);
+              const nova = produto.variacoes[i];
+              imagensAtuais = nova.imagens?.length ? nova.imagens : [nova.imagem];
+              renderGaleria(imagensAtuais);
+              botoesCor.forEach(b => b.classList.remove('ativo'));
+              btn.classList.add('ativo');
+            });
+          });
+        }
+    
+        // Tamanho + botão de compra
+        let tamanhoSelecionado = null;
+        const botoesTamanho = document.querySelectorAll('.opcoes-tamanho button');
+        const botaoComprar = document.querySelector('.btn-comprar');
+    
+        botoesTamanho.forEach(btn => {
+          btn.addEventListener('click', () => {
+            tamanhoSelecionado = btn.textContent;
+            botoesTamanho.forEach(b => b.classList.remove('ativo'));
+            btn.classList.add('ativo');
+            botaoComprar.textContent = "Adicionar ao Carrinho";
+            botaoComprar.disabled = false;
+          });
         });
     
+        botaoComprar.addEventListener('click', () => {
+          if (tamanhoSelecionado) {
+            adicionarAoCarrinho(produto, tamanhoSelecionado);
+          }
+        });
+    
+        // Galeria dinâmica
+        function renderGaleria(imagens) {
+          const galeriaContainer = document.getElementById('galeria-imagens');
+    
+          if (window.innerWidth <= 768) {
+            galeriaContainer.innerHTML = `
+              <div class="carrossel-wrapper">
+                <div class="carrossel-mobile" id="carrossel">
+                  ${imagens.map(img => `<img src="${img}" alt="Produto">`).join('')}
+                </div>
+                <div class="carrossel-indicadores">
+                  ${imagens.map((_, i) => `<span class="ponto ${i === 0 ? 'ativo' : ''}" data-index="${i}"></span>`).join('')}
+                </div>
+              </div>
+            `;
+    
+            const carrossel = document.getElementById('carrossel');
+            const pontos = document.querySelectorAll('.carrossel-indicadores .ponto');
+            let currentSlide = 0;
+            let startX = 0;
+            let isDragging = false;
+    
+            carrossel.addEventListener('touchstart', (e) => {
+              startX = e.touches[0].clientX;
+              isDragging = true;
+            });
+    
+            carrossel.addEventListener('touchmove', (e) => {
+              if (!isDragging) return;
+              const deltaX = e.touches[0].clientX - startX;
+              carrossel.style.transform = `translateX(${-currentSlide * 100 + deltaX / window.innerWidth * 100}%)`;
+            });
+    
+            carrossel.addEventListener('touchend', (e) => {
+              const endX = e.changedTouches[0].clientX;
+              const deltaX = endX - startX;
+              if (deltaX > 50 && currentSlide > 0) currentSlide--;
+              if (deltaX < -50 && currentSlide < imagens.length - 1) currentSlide++;
+              updateSlide();
+              isDragging = false;
+            });
+    
+            pontos.forEach(ponto => {
+              ponto.addEventListener('click', () => {
+                currentSlide = Number(ponto.dataset.index);
+                updateSlide();
+              });
+            });
+    
+            function updateSlide() {
+              carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;
+              pontos.forEach((p, i) => {
+                p.classList.toggle('ativo', i === currentSlide);
+              });
+            }
+    
+          } else {
+            galeriaContainer.innerHTML = `
+              <div class="miniaturas">
+                ${imagens.map(img => `<img src="${img}" alt="Miniatura">`).join('')}
+              </div>
+              <div class="imagem-principal">
+                <img src="${imagens[0]}" alt="Produto" id="imagem-destacada">
+              </div>
+            `;
+    
+            const miniaturas = document.querySelectorAll('.miniaturas img');
+            const imagemDestacada = document.getElementById('imagem-destacada');
+            miniaturas.forEach(mini => {
+              mini.addEventListener('click', () => {
+                imagemDestacada.src = mini.src;
+              });
+            });
+          }
+        }
+    
       } catch (error) {
-        document.getElementById('pagina-produto').innerHTML = '<p>Erro ao carregar produto.</p>';
-        console.error('Erro ao carregar JSON:', error);
+        container.innerHTML = "<p>Erro ao carregar produto.</p>";
+        console.error(error);
       }
     }
     
     renderProduto();
     </script>
     
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const nav = document.querySelector("ul.nav-links");
-    const capsMenu = document.getElementById("capsMenu");
-    const capsLink = document.querySelector(".submenu-toggle");
-    const body = document.body;
-  
-    // Abrir menu de subcoleções
-    if (capsLink) {
-      capsLink.addEventListener("click", (e) => {
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
-          nav.classList.remove("show");
-          capsMenu.classList.add("show");
-          body.classList.add("menu-aberto");
-        }
-      });
-    }
-  
-    // Voltar ao menu principal
-    window.voltarMenu = function () {
-      capsMenu.classList.remove("show");
-      nav.classList.add("show");
-      body.classList.add("menu-aberto");
-    };
-  
-    // Fechar tudo com o botão "✕"
-    window.fecharMenuMobile = function () {
-      nav.classList.remove("show");
-      capsMenu.classList.remove("show");
-      body.classList.remove("menu-aberto");
-    };
-  
-    // Toggle menu principal
-    window.toggleMenu = function () {
-      const cart = document.getElementById("cartSidebar");
-      if (cart && cart.classList.contains("show")) {
-        cart.classList.remove("show");
-      }
-      nav.classList.toggle("show");
-      capsMenu.classList.remove("show");
-      body.classList.toggle("menu-aberto");
-    };
-  
-    // Toggle lupa
-    window.toggleSearch = function () {
-      document.getElementById("search-input").classList.toggle("show");
-    };
-  });
-  </script>
+    
   
 
 

@@ -3,22 +3,85 @@
       "nome": "Chapéu Urbano",
       "descricao": "Design moderno para o dia a dia.",
       "imagem": "img/denimtrucker.jpg",
+      "imagens": [
+        "img/denimtrucker.jpg",
+        "img/denimtrucker.jpg"
+      ],
       "preco": "29,95€",
-      "colecao": ["cap", "New"]
+      "colecao": ["cap", "New"],
+      "variacoes": [
+      {
+        "cor": "Preto",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      },
+      {
+        "cor": "Azul",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      },
+      {
+        "cor": "Bege",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      }
+    ]
     },
     {
       "nome": "Chapéu Clássico",
       "descricao": "Elegância e estilo em cada detalhe.",
       "imagem": "img/denimtrucker.jpg",
+      "imagens": [
+        "img/denimtrucker.jpg",
+        "img/denimtrucker.jpg"
+      ],
       "preco": "29,95€",
-      "colecao": ["cap", "New"]
+      "colecao": ["cap", "New"],
+      "variacoes": [
+      {
+        "cor": "Preto",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      },
+      {
+        "cor": "Azul",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      },
+      {
+        "cor": "Bege",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      }
+    ]
     },
     {
       "nome": "Chapéu Exclusivo",
       "descricao": "Peça única para quem busca autenticidade.",
       "imagem": "img/denimtrucker.jpg",
+      "imagens": [
+        "img/denimtrucker.jpg",
+        "img/denimtrucker.jpg"
+      ],
       "preco": "29,95€",
-      "colecao": ["cap", "New"]
+      "colecao": ["cap", "New"],
+      "variacoes": [
+      {
+        "cor": "Preto",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      },
+      {
+        "cor": "Azul",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      },
+      {
+        "cor": "Bege",
+        "imagem": "img/denimtrucker.jpg",
+        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+      }
+    ]
     }
   ]
   
