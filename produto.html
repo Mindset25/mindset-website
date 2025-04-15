@@ -57,6 +57,17 @@
   
       </nav>
   </header>
+  <div class="announcement-bar-animada">
+    <span class="announcement-seta esquerda">❮</span>
+  
+    <div class="announcement-track">
+      <span class="announcement-item ativo">🧢 Frete grátis acima de 50€!</span>
+      <span class="announcement-item">💥 Nova coleção já disponível!</span>
+    </div>
+  
+    <span class="announcement-seta direita">❯</span>
+  </div>
+  
   <section class="pagina-produto" id="pagina-produto">
     <!-- Conteúdo será carregado via JavaScript -->
   </section>
@@ -194,7 +205,6 @@
         let imagensAtuais = produto.imagens?.length ? produto.imagens : [produto.imagem];
     
         container.innerHTML = `
-
           <div class="container-produto">
             <div class="galeria-imagens" id="galeria-imagens"></div>
     
@@ -461,6 +471,39 @@ pontos.forEach((ponto, i) => {
           document.getElementById("search-input").classList.toggle("show");
         };
       });
+  </script>
+  <script>
+function iniciarAnnouncementBar() {
+  const mensagens = document.querySelectorAll('.announcement-item');
+  const setaEsquerda = document.querySelector('.announcement-seta.esquerda');
+  const setaDireita = document.querySelector('.announcement-seta.direita');
+  let ativo = 0;
+  let intervalo;
+
+  function mostrar(index) {
+    mensagens.forEach((msg, i) => {
+      msg.classList.toggle('ativo', i === index);
+    });
+  }
+
+  function proximo() {
+    ativo = (ativo + 1) % mensagens.length;
+    mostrar(ativo);
+  }
+
+  function anterior() {
+    ativo = (ativo - 1 + mensagens.length) % mensagens.length;
+    mostrar(ativo);
+  }
+
+  setaDireita.addEventListener('click', proximo);
+  setaEsquerda.addEventListener('click', anterior);
+
+  intervalo = setInterval(proximo, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', iniciarAnnouncementBar);
+
   </script>
     
     
