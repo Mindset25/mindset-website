@@ -146,6 +146,7 @@
   
 <!-- JAVASCRIPT -->
 <script>
+
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
@@ -174,6 +175,13 @@
     async function renderProduto() {
       const nomeProduto = decodeURIComponent(getQueryParam('nome'));
       const container = document.getElementById("pagina-produto");
+      const accordionHeaders = document.querySelectorAll('.accordion-header');
+      accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            header.parentElement.classList.toggle('open');
+  });
+});
+
     
       try {
         const response = await fetch('produtos.json');
@@ -209,7 +217,14 @@
               </div>
     
               <button class="btn-comprar" disabled>Seleciona um tamanho</button>
-    
+            
+            <div class="accordion">
+                <button class="accordion-header">Descrição</button>
+                    <div class="accordion-content">
+                        <p>${produto.descricao}</p>
+                    </div>
+            </div>
+
               <div class="info-extra">
                 <p>Envio grátis para pedidos acima de 50€.</p>
                 <p>Devoluções fáceis em 30 dias.</p>
@@ -222,21 +237,16 @@
     
         // Seletor de cor (local, sem redirect)
         if (produto.variacoes && produto.variacoes.length > 1) {
-          const seletor = document.getElementById('seletor-cores');
-          seletor.innerHTML = `
-            <h4>Seleciona uma cor:</h4>
-            <div class="opcoes-cores">
-              ${produto.variacoes.map((v, i) => `
-                <button 
-                  class="opcao-cor ${i === 0 ? 'ativo' : ''}" 
-                  data-index="${i}" 
-                  title="${v.cor}"
-                >
-                  <img src="${v.imagem}" alt="${v.cor}">
-                </button>
-              `).join('')}
-            </div>
-          `;
+            const seletor = document.getElementById('seletor-cores');
+                seletor.innerHTML = `
+                    <div class="opcoes-cores">
+                         ${produto.variacoes.map((v, i) => `
+                    <button class="opcao-cor ${i === 0 ? 'ativo' : ''}" data-index="${i}" title="${v.cor}">
+                <img src="${v.imagem}" alt="${v.cor}">
+            </button>
+        `).join('')}
+        </div>
+        `;
     
           const botoesCor = seletor.querySelectorAll('.opcao-cor');
           botoesCor.forEach(btn => {

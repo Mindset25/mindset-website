@@ -162,6 +162,34 @@
     height: 100%;
     object-fit: cover;
   }
+  .accordion {
+    margin-top: 2rem;
+    border-top: 1px solid #ccc;
+  }
+  
+  .accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 1rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .accordion-content {
+    display: none;
+    padding: 1rem;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .accordion.open .accordion-content {
+    display: block;
+  }
+  
   
   @media (max-width: 768px) {
     .container-produto {
@@ -241,8 +269,23 @@
   .carrossel-indicadores .ponto.ativo {
     background: #fff;
   }
-  
+  .opcoes-cores {
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
   }
+
+  .opcao-cor {
+    width: 64px;
+    height: 64px;
+  }
+
+  .variacoes-cores h4 {
+    display: none;
+  }
+}
+  
+  
 
   
   
