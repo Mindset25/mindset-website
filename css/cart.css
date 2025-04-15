@@ -1,3 +1,14 @@
+input,
+select,
+textarea {
+  font-family: 'Work Sans', sans-serif;
+}
+button,
+.btn-comprar,
+.accordion-header,
+.opcoes-tamanho button {
+  font-family: 'Work Sans', sans-serif;
+}
 .cart-page .container {
     padding: 2rem;
   }

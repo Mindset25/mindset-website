@@ -175,19 +175,18 @@
     async function renderProduto() {
       const nomeProduto = decodeURIComponent(getQueryParam('nome'));
       const container = document.getElementById("pagina-produto");
-      const accordionHeaders = document.querySelectorAll('.accordion-header');
-      accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            header.parentElement.classList.toggle('open');
-  });
-});
-
     
       try {
         const response = await fetch('produtos.json');
         const produtos = await response.json();
         const produto = produtos.find(p => p.nome === nomeProduto);
-    
+        setTimeout(() => {
+        document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+        header.parentElement.classList.toggle('open');
+    });
+  });
+}, 0);
         if (!produto) {
           container.innerHTML = "<p>Produto não encontrado.</p>";
           return;
@@ -195,16 +194,16 @@
         let imagensAtuais = produto.imagens?.length ? produto.imagens : [produto.imagem];
     
         container.innerHTML = `
+
           <div class="container-produto">
             <div class="galeria-imagens" id="galeria-imagens"></div>
     
             <div class="info-produto">
-              <h1>${produto.nome}</h1>
+              <h4>${produto.maincollection}</h4>
+              <h3>${produto.nome}</h3>
               <p class="preco">${produto.preco}</p>
     
               <div class="variacoes-cores" id="seletor-cores"></div>
-    
-              <p class="descricao">${produto.descricao}</p>
     
               <div class="tamanhos">
                 <h4>Escolhe o teu tamanho</h4>
@@ -219,19 +218,74 @@
               <button class="btn-comprar" disabled>Seleciona um tamanho</button>
             
             <div class="accordion">
-                <button class="accordion-header">Descrição</button>
-                    <div class="accordion-content">
-                        <p>${produto.descricao}</p>
-                    </div>
-            </div>
-
-              <div class="info-extra">
-                <p>Envio grátis para pedidos acima de 50€.</p>
-                <p>Devoluções fáceis em 30 dias.</p>
+              <button class="accordion-header">
+                Detalhes do Produto
+                  <span class="seta"></span>
+              </button>
+                <div class="accordion-content">
+                  <div class="accordion-box">
+                  <p>${produto.descricao}</p>
+                  </div>
+                </div>
               </div>
+
+            <div class="accordion">
+              <button class="accordion-header">
+                Envios & Devoluções
+                  <span class="seta"></span>
+              </button>
+                <div class="accordion-content">
+                  <div class="accordion-box">
+                <p>Envios gratuitos acima de 50€ para Portugal Continental. <br> Devoluções simples até 30 dias após a compra.</p>
+                </div>
+                </div>
+            </div>
             </div>
           </div>
         `;
+        document.querySelectorAll('.accordion-header').forEach(header => {
+  const content = header.nextElementSibling;
+  const parent = header.parentElement;
+  const seta = header.querySelector('.seta');
+
+  // Garante altura 0 no início
+  content.style.height = '0px';
+
+  header.addEventListener('click', () => {
+    const isOpen = parent.classList.contains('open');
+
+    if (isOpen) {
+      // Para fechar: usa scrollHeight atual e volta para 0
+      content.style.height = `${content.scrollHeight}px`; // força altura atual
+      requestAnimationFrame(() => {
+        content.style.height = '0px';
+      });
+
+      // Gira seta para baixo
+      if (seta) seta.style.transform = 'rotate(45deg)';
+      parent.classList.remove('open');
+
+    } else {
+      // Para abrir: define altura fixa → depois limpa
+      const altura = content.scrollHeight;
+      content.style.height = `${altura}px`;
+      parent.classList.add('open');
+
+      // Gira seta para cima
+      if (seta) seta.style.transform = 'rotate(-135deg)';
+
+      // Após a animação, define como auto
+      const onTransitionEnd = () => {
+        content.style.height = 'auto';
+        content.removeEventListener('transitionend', onTransitionEnd);
+      };
+
+      content.addEventListener('transitionend', onTransitionEnd);
+    }
+  });
+});
+
+
     
         renderGaleria(imagensAtuais);
     
@@ -288,48 +342,39 @@
     
           if (window.innerWidth <= 768) {
             galeriaContainer.innerHTML = `
-              <div class="carrossel-wrapper">
-                <div class="carrossel-mobile" id="carrossel">
-                  ${imagens.map(img => `<img src="${img}" alt="Produto">`).join('')}
-                </div>
-                <div class="carrossel-indicadores">
-                  ${imagens.map((_, i) => `<span class="ponto ${i === 0 ? 'ativo' : ''}" data-index="${i}"></span>`).join('')}
-                </div>
-              </div>
-            `;
-    
-            const carrossel = document.getElementById('carrossel');
-            const pontos = document.querySelectorAll('.carrossel-indicadores .ponto');
-            let currentSlide = 0;
-            let startX = 0;
-            let isDragging = false;
-    
-            carrossel.addEventListener('touchstart', (e) => {
-              startX = e.touches[0].clientX;
-              isDragging = true;
-            });
-    
-            carrossel.addEventListener('touchmove', (e) => {
-              if (!isDragging) return;
-              const deltaX = e.touches[0].clientX - startX;
-              carrossel.style.transform = `translateX(${-currentSlide * 100 + deltaX / window.innerWidth * 100}%)`;
-            });
-    
-            carrossel.addEventListener('touchend', (e) => {
-              const endX = e.changedTouches[0].clientX;
-              const deltaX = endX - startX;
-              if (deltaX > 50 && currentSlide > 0) currentSlide--;
-              if (deltaX < -50 && currentSlide < imagens.length - 1) currentSlide++;
-              updateSlide();
-              isDragging = false;
-            });
-    
-            pontos.forEach(ponto => {
-              ponto.addEventListener('click', () => {
-                currentSlide = Number(ponto.dataset.index);
-                updateSlide();
-              });
-            });
+  <div class="carrossel-wrapper">
+    <div class="carrossel-mobile" id="carrossel">
+      ${imagens.map(img => `<img src="${img}" alt="Produto">`).join('')}
+    </div>
+    <div class="carrossel-indicadores">
+      ${imagens.map((_, i) => `<span class="ponto ${i === 0 ? 'ativo' : ''}" data-index="${i}"></span>`).join('')}
+    </div>
+  </div>
+`;
+
+const carrossel = document.getElementById('carrossel');
+const pontos = document.querySelectorAll('.carrossel-indicadores .ponto');
+
+function updateIndicadores() {
+  const slideIndex = Math.round(carrossel.scrollLeft / carrossel.offsetWidth);
+  pontos.forEach((p, i) => {
+    p.classList.toggle('ativo', i === slideIndex);
+  });
+}
+
+carrossel.addEventListener('scroll', () => {
+  updateIndicadores();
+});
+
+pontos.forEach((ponto, i) => {
+  ponto.addEventListener('click', () => {
+    carrossel.scrollTo({
+      left: i * carrossel.offsetWidth,
+      behavior: 'smooth'
+    });
+  });
+});
+
     
             function updateSlide() {
               carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -366,6 +411,57 @@
     
     renderProduto();
     </script>
+    <!-- SCRIPT MENU -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const nav = document.querySelector("ul.nav-links");
+        const capsMenu = document.getElementById("capsMenu");
+        const capsLink = document.querySelector(".submenu-toggle");
+        const body = document.body;
+      
+        // Abrir menu de subcoleções
+        if (capsLink) {
+          capsLink.addEventListener("click", (e) => {
+            if (window.innerWidth <= 768) {
+              e.preventDefault();
+              nav.classList.remove("show");
+              capsMenu.classList.add("show");
+              body.classList.add("menu-aberto");
+            }
+          });
+        }
+      
+        // Voltar ao menu principal
+        window.voltarMenu = function () {
+          capsMenu.classList.remove("show");
+          nav.classList.add("show");
+          body.classList.add("menu-aberto");
+        };
+      
+        // Fechar tudo com o botão "✕"
+        window.fecharMenuMobile = function () {
+          nav.classList.remove("show");
+          capsMenu.classList.remove("show");
+          body.classList.remove("menu-aberto");
+        };
+      
+        // Toggle menu principal
+        window.toggleMenu = function () {
+          const cart = document.getElementById("cartSidebar");
+          if (cart && cart.classList.contains("show")) {
+            cart.classList.remove("show");
+          }
+          nav.classList.toggle("show");
+          capsMenu.classList.remove("show");
+          body.classList.toggle("menu-aberto");
+        };
+      
+        // Toggle lupa
+        window.toggleSearch = function () {
+          document.getElementById("search-input").classList.toggle("show");
+        };
+      });
+  </script>
     
     
   

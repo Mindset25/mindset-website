@@ -2,6 +2,7 @@
     {
       "nome": "Chapéu Urbano",
       "descricao": "Design moderno para o dia a dia.",
+      "maincollection": "Cap",
       "imagem": "img/denimtrucker.jpg",
       "imagens": [
         "img/denimtrucker.jpg",
@@ -30,6 +31,7 @@
     {
       "nome": "Chapéu Clássico",
       "descricao": "Elegância e estilo em cada detalhe.",
+      "maincollection": "Cap",
       "imagem": "img/denimtrucker.jpg",
       "imagens": [
         "img/denimtrucker.jpg",
@@ -58,6 +60,7 @@
     {
       "nome": "Chapéu Exclusivo",
       "descricao": "Peça única para quem busca autenticidade.",
+      "maincollection": "Cap",
       "imagem": "img/denimtrucker.jpg",
       "imagens": [
         "img/denimtrucker.jpg",
