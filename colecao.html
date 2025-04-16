@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coleção Mindset</title>
+  <title>Mindset - Nova Coleção</title>
   <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/colecao.css" />
+  <link rel="stylesheet" href="css/produto.css" />
 </head>
 
 <body>
@@ -52,17 +54,71 @@
       </div>
 
     </nav>
+    <div id="searchOverlay" class="search-overlay">
+      <div id="searchBackdrop" class="search-backdrop" onclick="fecharPesquisa()"></div>
+      <div class="search-header">
+        <img src="img/mindsetlogo.png" alt="Logo Mindset" class="search-logo">
+        <button class="close-search" onclick="fecharPesquisa()">✕</button>
+      </div>
+      <div class="search-box">
+        <div class="search-input-container">
+          <img src="img/search-line-icon.png" class="search-icon" />
+          <input type="text" placeholder="Pesquisar produto ou coleção..." />
+        </div>
+      </div>
+      <div class="search-suggestions">
+        <p>Pesquisas populares</p>
+        <div class="tag-container">
+          <span class="search-tag">urban</span>
+          <span class="search-tag">trucker</span>
+          <span class="search-tag">classic</span>
+          <span class="search-tag">preto</span>
+          <span class="search-tag">mindset</span>
+          <span class="search-tag">canvas</span>
+        </div>
+      </div>
+    </div>
   </header>
+  <div class="announcement-bar-animada">
+    <span class="announcement-seta esquerda">❮</span>
+  
+    <div class="announcement-track">
+      <span class="announcement-item ativo">🧢 Frete grátis acima de 50€!</span>
+      <span class="announcement-item">💥 Nova coleção já disponível!</span>
+    </div>
+  
+    <span class="announcement-seta direita">❯</span>
+  </div>
 
-  <section class="colecao-banner">
-    <h1>Coleção 2025</h1>
-    <p>Inspire-se com os novos modelos da Mindset.</p>
-  </section>
 
-  <section class="galeria-produtos">
-        <h2>Destaques</h2>
-        <div id="lista-produtos" class="produtos"></div>
-  </section>
+  <div class="colecao-container">
+    <button id="abrir-filtros" class="btn-filtros">Filtros</button>
+  
+    <aside class="colecao-filtros">
+      <h2>Filtros</h2>
+      <div>
+        <label for="precoRange">Preço até: <span id="preco-valor">100</span>€</label>
+        <input type="range" id="precoRange" min="0" max="100" value="100" />
+      </div>
+      <hr />
+      <div>
+        <strong>Tipo de Boné:</strong><br />
+        <label><input type="checkbox" class="filtro-tipo" value="snapback" /> Snapback</label>
+        <label><input type="checkbox" class="filtro-tipo" value="trucker" /> Trucker</label>
+        <label><input type="checkbox" class="filtro-tipo" value="beanie" /> Beanie</label>
+      </div>
+      <hr />
+      <div>
+        <strong>Disponibilidade:</strong><br />
+        <label><input type="checkbox" class="filtro-stock" value="disponivel" /> Disponível</label>
+        <label><input type="checkbox" class="filtro-stock" value="esgotado" /> Esgotado</label>
+      </div>
+    </aside>
+  
+    <main class="colecao-produtos" id="lista-produtos">
+      <!-- Produtos serão renderizados aqui -->
+    </main>
+  </div>
 
   <footer>
 
@@ -164,6 +220,12 @@
   const urlParams = new URLSearchParams(window.location.search);
   const colecaoAtual = urlParams.get('colecao') || "urban";
   const container = document.getElementById("lista-produtos");
+  const precoRange = document.getElementById("precoRange");
+  const precoLabel = document.getElementById("preco-valor");
+  const btnFiltros = document.getElementById("abrir-filtros");
+  const sidebar = document.querySelector(".colecao-filtros");
+
+  let produtosOriginal = [];
 
   fetch("produtos.json")
     .then(response => {
@@ -171,35 +233,70 @@
       return response.json();
     })
     .then(produtos => {
-      // Filtra produtos que têm a coleção atual dentro do array (ou string antiga)
-      const produtosFiltrados = produtos.filter(p => {
-        if (Array.isArray(p.colecao)) {
-          return p.colecao.includes(colecaoAtual);
-        } else {
-          return p.colecao === colecaoAtual;
-        }
+      produtosOriginal = produtos.filter(p => {
+        return Array.isArray(p.colecao)
+          ? p.colecao.includes(colecaoAtual)
+          : p.colecao === colecaoAtual;
       });
 
-      if (produtosFiltrados.length === 0) {
-        container.innerHTML = "<p>Nenhum produto encontrado para essa coleção.</p>";
-      } else {
-        produtosFiltrados.forEach(produto => {
-          const div = document.createElement("div");
-          div.classList.add("produto");
-          div.innerHTML = `
-            <img src="${produto.imagem}" alt="${produto.nome}">
-            <h3>${produto.nome}</h3>
-            <p>${produto.descricao}</p>
-            <strong>${produto.preco}</strong>
-          `;
-          container.appendChild(div);
-        });
-      }
+      aplicarFiltros();
+      document.querySelectorAll('.filtro-stock, .filtro-tipo').forEach(cb => {
+        cb.addEventListener('change', aplicarFiltros);
+      });
+      precoRange.addEventListener('input', () => {
+        precoLabel.textContent = precoRange.value;
+        aplicarFiltros();
+      });
     })
     .catch(error => {
       container.innerHTML = "<p>Erro ao carregar os produtos.</p>";
       console.error("Erro ao buscar produtos.json:", error);
     });
+
+  function aplicarFiltros() {
+    const precoMax = parseFloat(precoRange.value);
+    const tiposSelecionados = [...document.querySelectorAll('.filtro-tipo:checked')].map(cb => cb.value);
+    const stockSelecionado = [...document.querySelectorAll('.filtro-stock:checked')].map(cb => cb.value);
+
+    const filtrados = produtosOriginal.filter(produto => {
+      const precoNum = parseFloat(produto.preco.replace(",", ".").replace("€", ""));
+      const tipo = (produto.maincollection || "").toLowerCase();
+      const stock = "disponivel"; // simulado, ajustar depois com campo real
+
+      if (precoNum > precoMax) return false;
+      if (tiposSelecionados.length && !tiposSelecionados.includes(tipo)) return false;
+      if (stockSelecionado.length && !stockSelecionado.includes(stock)) return false;
+
+      return true;
+    });
+
+    renderizarProdutos(filtrados);
+  }
+
+  function renderizarProdutos(produtos) {
+    container.innerHTML = "";
+    produtos.forEach(produto => {
+      const div = document.createElement("div");
+      div.classList.add("produto");
+
+      const variacoes = (produto.variacoes || []).map(v => `
+        <img src="${v.imagem}" alt="${v.cor}" onclick="this.closest('.produto').querySelector('img').src='${v.imagem}'" />
+      `).join("");
+
+      div.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.nome}">
+        <h3>${produto.nome}</h3>
+        <p>${produto.descricao}</p>
+        <strong>${produto.preco}</strong>
+        <div class="variacoes">${variacoes}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  btnFiltros.addEventListener("click", () => {
+    sidebar.classList.toggle("ativo");
+  });
 </script>
     <!-- SCRIPT MENU -->
     <script>
