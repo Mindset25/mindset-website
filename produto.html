@@ -10,9 +10,6 @@
 </head>
 
 <body>
-  <div class="announcement-bar">
-    Frete grátis em compras acima de 50€! 🧢
-  </div>
   <header>
     <nav>
         <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
@@ -226,17 +223,9 @@
               </div>
     
               <button class="btn-comprar" disabled>Seleciona um tamanho</button>
-            
-            <div class="accordion">
-              <button class="accordion-header">
-                Detalhes do Produto
-                  <span class="seta"></span>
-              </button>
-                <div class="accordion-content">
-                  <div class="accordion-box">
-                  <p>${produto.descricao}</p>
-                  </div>
-                </div>
+              <div class="material-box">
+                <h4>Material</h4>
+                  <p>${produto.material}</p>
               </div>
 
             <div class="accordion">
@@ -247,11 +236,34 @@
                 <div class="accordion-content">
                   <div class="accordion-box">
                 <p>Envios gratuitos acima de 50€ para Portugal Continental. <br> Devoluções simples até 30 dias após a compra.</p>
+                  <p>${produto.descricao}</p>
+                  </div>
+                </div>
+              </div>
+
+            <div class="accordion">
+              <button class="accordion-header">
+                Como É Feito Este Produto?
+                  <span class="seta"></span>
+              </button>
+                <div class="accordion-content">
+                  <div class="accordion-box">
+                <p>Envios gratuitos acima de 50€ para Portugal Continental. <br> Devoluções simples até 30 dias após a compra.</p>
                 </div>
                 </div>
+            <div class="Description-Box">
+            <div class="descricao-box">
+              <p>${produto.descricao}</p>
             </div>
             </div>
           </div>
+          </div>
+        </div>
+          <div class="secao-sugeridos">
+            <h2>Também Pode Gostar</h2>
+          <div class="grade-sugeridos" id="sugeridos"></div>
+          </div>
+
         `;
         document.querySelectorAll('.accordion-header').forEach(header => {
   const content = header.nextElementSibling;
@@ -294,6 +306,19 @@
     }
   });
 });
+
+    // Sugestões de "Também Pode Gostar"
+const containerSugeridos = document.getElementById('sugeridos');
+const outros = produtos.filter(p => p.nome !== produto.nome).slice(0, 4); // até 4 produtos diferentes
+
+containerSugeridos.innerHTML = outros.map(p => `
+  <a href="produto.html?nome=${encodeURIComponent(p.nome)}" class="card-sugerido">
+    <img src="${p.imagem}" alt="${p.nome}">
+    <h4>${p.nome}</h4>
+    <p>${p.preco}</p>
+  </a>
+`).join('');
+
 
 
     
@@ -471,6 +496,14 @@ pontos.forEach((ponto, i) => {
           document.getElementById("search-input").classList.toggle("show");
         };
       });
+      function toggleSearch() {
+  document.getElementById("searchOverlay").classList.add("show");
+}
+
+function fecharPesquisa() {
+  document.getElementById("searchOverlay").classList.remove("show");
+}
+
   </script>
   <script>
 function iniciarAnnouncementBar() {

@@ -9,10 +9,6 @@
 </head>
 
 <body>
-  <div class="announcement-bar">
-    Frete grátis em compras acima de 50€! 🧢
-  </div>
-
   <header>
     <nav>
       <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
@@ -162,40 +158,6 @@
     </div>
   </div>
 
-  <script>
-function toggleMenu() {
-  const nav = document.querySelector("nav ul");
-  const cart = document.getElementById("cartSidebar");
-  const body = document.body;
-
-  // Fecha o carrinho se estiver aberto
-  if (cart && cart.classList.contains("show")) {
-    cart.classList.remove("show");
-  }
-
-  nav.classList.toggle("show");
-  body.classList.toggle("menu-aberto");
-}
-
-function toggleSearch() {
-      document.getElementById("search-input").classList.toggle("show");
-    }
-
-    function toggleCart() {
-  const cart = document.getElementById("cartSidebar");
-  const nav = document.querySelector("nav ul");
-  const body = document.body;
-
-  if (nav.classList.contains("show")) {
-    nav.classList.remove("show");
-    body.classList.remove("menu-aberto");
-  }
-
-  cart.classList.toggle("show");
-  body.classList.toggle("carrinho-ativo");
-}
-    
-  </script>
   
 <!-- SCRIPT PRODUTOS -->
 <script>
@@ -285,11 +247,15 @@ function toggleSearch() {
         };
       
         // Toggle lupa
-        window.toggleSearch = function () {
-          document.getElementById("search-input").classList.toggle("show");
-        };
       });
-  </script>
+      function toggleSearch() {
+      document.getElementById("searchOverlay").classList.add("show");
+    }
+    
+    function fecharPesquisa() {
+      document.getElementById("searchOverlay").classList.remove("show");
+    }
+      </script>
 
   
 </body>

@@ -9,9 +9,6 @@
   <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="announcement-bar">
-    Frete grátis em compras acima de 50€! 🧢
-  </div>
 
   <header>
     <nav>
@@ -300,6 +297,14 @@
             document.getElementById("search-input").classList.toggle("show");
           };
         });
+        function toggleSearch() {
+  document.getElementById("searchOverlay").classList.add("show");
+}
+
+function fecharPesquisa() {
+  document.getElementById("searchOverlay").classList.remove("show");
+}
+
     </script>
 </body>
 </html>

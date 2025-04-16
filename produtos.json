@@ -2,6 +2,7 @@
     {
       "nome": "Chapéu Urbano",
       "descricao": "Design moderno para o dia a dia.",
+      "material": "100% Algodão",
       "maincollection": "Cap",
       "imagem": "img/denimtrucker.jpg",
       "imagens": [
@@ -29,26 +30,28 @@
     ]
     },
     {
-      "nome": "Chapéu Clássico",
+      "nome": "Driven",
       "descricao": "Elegância e estilo em cada detalhe.",
+      "material": "100% Algodão",
       "maincollection": "Cap",
-      "imagem": "img/denimtrucker.jpg",
+      "imagem": "img/drivenfrente.png",
       "imagens": [
-        "img/denimtrucker.jpg",
-        "img/denimtrucker.jpg"
+        "img/drivenfrente.png",
+        "img/drivenlado.png",
+        "img/driventras.png"
       ],
       "preco": "29,95€",
       "colecao": ["cap", "New"],
       "variacoes": [
       {
-        "cor": "Preto",
-        "imagem": "img/denimtrucker.jpg",
-        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+        "cor": "Bege",
+        "imagem": "img/drivenfrente.png",
+        "imagens": ["img/drivenfrente.png", "img/drivenlado.png", "img/driventras.png"]
       },
       {
         "cor": "Azul",
-        "imagem": "img/denimtrucker.jpg",
-        "imagens": ["img/denimtrucker.jpg", "img/denimtrucker.jpg"]
+        "imagem": "img/drivenazulfrente.png",
+        "imagens": ["img/drivenazulfrente.png", "img/drivenazullado.png", "img/drivenazultras.png"]
       },
       {
         "cor": "Bege",
@@ -60,6 +63,7 @@
     {
       "nome": "Chapéu Exclusivo",
       "descricao": "Peça única para quem busca autenticidade.",
+      "material": "100% Algodão",
       "maincollection": "Cap",
       "imagem": "img/denimtrucker.jpg",
       "imagens": [

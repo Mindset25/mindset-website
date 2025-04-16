@@ -9,9 +9,6 @@
 </head>
 
 <body>
-  <div class="announcement-bar">
-    Frete grátis em compras acima de 50€! 🧢
-  </div>
   <header>
     <nav>
       <div id="menu-overlay" onclick="fecharMenuMobile()"></div>
@@ -55,6 +52,32 @@
       </div>
 
     </nav>
+    <div id="searchOverlay" class="search-overlay">
+      <div id="searchBackdrop" class="search-backdrop" onclick="fecharPesquisa()"></div>
+      <div class="search-header">
+        <img src="img/mindsetlogo.png" alt="Logo Mindset" class="search-logo">
+        <button class="close-search" onclick="fecharPesquisa()">✕</button>
+      </div>
+      <div class="search-box">
+        <div class="search-input-container">
+          <img src="img/search-line-icon.png" class="search-icon" />
+          <input type="text" placeholder="Pesquisar produto ou coleção..." />
+        </div>
+      </div>
+      <div class="search-suggestions">
+        <p>Pesquisas populares</p>
+        <div class="tag-container">
+          <span class="search-tag">urban</span>
+          <span class="search-tag">trucker</span>
+          <span class="search-tag">classic</span>
+          <span class="search-tag">preto</span>
+          <span class="search-tag">mindset</span>
+          <span class="search-tag">canvas</span>
+        </div>
+      </div>
+    </div>
+    
+    
   </header>
 
   <section class="hero">
@@ -69,7 +92,7 @@
     <h2>Escolha por Coleção</h2>
     <div class="grade-colecoes">
       <a href="colecao.html?colecao=urban" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Urban">
+        <img src="img/drivenfrente.png" alt="Coleção Urban">
         <h3>Mindset Urban</h3>
       </a>
       <a href="colecao.html?colecao=classic" class="colecao">
@@ -98,10 +121,10 @@
         <a href="produto.html?nome=Chapéu Urbano" class="btn">Comprar</a>
       </div>
       <div class="produto">
-        <img src="img/denimtrucker.jpg" alt="Denim Trucker">
-        <h3>Chapéu Clássico</h3>
+        <img src="img/drivenfrente.png" alt="Driven">
+        <h3>Driven</h3>
         <p>Um clássico repaginado para o mundo urbano.</p>
-        <a href="colecao.html" class="btn">Comprar</a>
+        <a href="produto.html?nome=Driven" class="btn">Comprar</a>
       </div>
       <div class="produto">
         <img src="img/denimtrucker.jpg" alt="Denim Trucker">
@@ -242,10 +265,16 @@
     };
   
     // Toggle lupa
-    window.toggleSearch = function () {
-      document.getElementById("search-input").classList.toggle("show");
-    };
   });
+  function toggleSearch() {
+  document.getElementById("searchOverlay").classList.add("show");
+  document.getElementById("searchBackdrop").classList.add("show");
+}
+
+function fecharPesquisa() {
+  document.getElementById("searchOverlay").classList.remove("show");
+  document.getElementById("searchBackdrop").classList.remove("show");
+}
   </script>
   
 
