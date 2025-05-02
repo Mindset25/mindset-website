@@ -6,6 +6,7 @@
   <title>Mindset - Nova Coleção</title>
   <script src="https://kit.fontawesome.com/4c5aad3e8f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/extrahome.css" />
 </head>
 
 <body>
@@ -80,35 +81,77 @@
     
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Estilo que Transforma</h1>
-      <p>Conheça a nova coleção urbana da Mindset</p>
-      <a href="colecao.html" class="btn">Ver Coleção</a>
+  <section class="banner-carousel">
+    <div class="slides">
+      <div class="slide active" style="background-image: url('img/ferrarimindset.jpg');">
+        <div class="banner-content">
+          <p style="color: #000000;">New summer colours for our max cushioning icon.</p>
+          <a href="colecao.html" class="btn">Ver Coleção</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('img/mustangverde.jpg');">
+        <div class="banner-content">
+          <p style="color: #ffffff;">New summer colours for our max cushioning icon.</p>
+          <a href="colecao.html?colecao=caps" class="btn">Explorar</a>
+        </div>
+      </div>
+      <!-- Adiciona mais slides se quiseres -->
     </div>
+    <button class="prev" onclick="changeSlide(-1)">❮</button>
+    <button class="next" onclick="changeSlide(1)">❯</button>
   </section>
+  
+  
 
-  <section class="colecoes">
-    <h2>Escolha por Coleção</h2>
-    <div class="grade-colecoes">
-      <a href="colecao.html?colecao=urban" class="colecao">
-        <img src="img/drivenfrente.png" alt="Coleção Urban">
-        <h3>Mindset Urban</h3>
-      </a>
-      <a href="colecao.html?colecao=classic" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Clássica">
-        <h3>Mindset Classics</h3>
-      </a>
-      <a href="colecao.html?colecao=exclusivos" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Premium">
-        <h3>Mindset Exclusives</h3>
-      </a>
-      <a href="colecao.html?colecao=exclusivos" class="colecao">
-        <img src="img/denimtrucker.jpg" alt="Coleção Premium">
-        <h3>Mindset Exclusives</h3>
+  <section class="colecao-grade">
+    <div class="colecao-item">
+      <a href="colecao.html?colecao=urban">
+        <div class="colecao-image" style="background-image: url('img/mindset3.jpg');">
+          <div class="colecao-info">
+            <h3>Urban</h3>
+            <p>Estilo autêntico para o dia a dia.</p>
+            <span class="colecao-btn">Explorar</span>
+          </div>
+        </div>
       </a>
     </div>
+    <div class="colecao-item">
+      <a href="colecao.html?colecao=urban">
+        <div class="colecao-image" style="background-image: url('img/mindset2.jpg');">
+          <div class="colecao-info">
+            <h3>Urban</h3>
+            <p>Estilo autêntico para o dia a dia.</p>
+            <span class="colecao-btn">Explorar</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="colecao-item">
+      <a href="colecao.html?colecao=urban">
+        <div class="colecao-image" style="background-image: url('img/mindset1.jpg');">
+          <div class="colecao-info">
+            <h3>Urban</h3>
+            <p>Estilo autêntico para o dia a dia.</p>
+            <span class="colecao-btn">Explorar</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="colecao-item">
+      <a href="colecao.html?colecao=urban">
+        <div class="colecao-image" style="background-image: url('img/mindsetlambo.jpg');">
+          <div class="colecao-info">
+            <h3>Urban</h3>
+            <p>Estilo autêntico para o dia a dia.</p>
+            <span class="colecao-btn">Explorar</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <!-- Repete para outras coleções -->
   </section>
+  
+  
   
 
   <section class="destaques">
@@ -220,6 +263,28 @@
   </footer>
   
 <!-- JAVASCRIPT -->
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active');
+      if (i === index) slide.classList.add('active');
+    });
+  }
+
+  function changeSlide(direction) {
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  // Optional: autoplay
+  setInterval(() => {
+    changeSlide(1);
+  }, 7000); // muda a cada 7 segundos
+</script>
+
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector("ul.nav-links");
