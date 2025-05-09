@@ -185,6 +185,16 @@ button,
     transition: transform 0.3s ease;
     margin-left: 0.5rem;
   }  
+  .accordion .accordion-content {
+    overflow: hidden;
+    transition: height 0.3s ease;
+  }
+  
+  .accordion .seta {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  
   .accordion {
     margin-top: 0rem;
   }

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/colecao.css" />
   <link rel="stylesheet" href="css/produto.css" />
+  <link rel="stylesheet" href="css/extrahome.css" />
 </head>
 
 <body>
@@ -89,36 +90,119 @@
   
     <span class="announcement-seta direita">❯</span>
   </div>
-
-
-  <div class="colecao-container">
-    <button id="abrir-filtros" class="btn-filtros">Filtros</button>
-  
-    <aside class="colecao-filtros">
-      <h2>Filtros</h2>
-      <div>
-        <label for="precoRange">Preço até: <span id="preco-valor">100</span>€</label>
-        <input type="range" id="precoRange" min="0" max="100" value="100" />
-      </div>
-      <hr />
-      <div>
-        <strong>Tipo de Boné:</strong><br />
-        <label><input type="checkbox" class="filtro-tipo" value="snapback" /> Snapback</label>
-        <label><input type="checkbox" class="filtro-tipo" value="trucker" /> Trucker</label>
-        <label><input type="checkbox" class="filtro-tipo" value="beanie" /> Beanie</label>
-      </div>
-      <hr />
-      <div>
-        <strong>Disponibilidade:</strong><br />
-        <label><input type="checkbox" class="filtro-stock" value="disponivel" /> Disponível</label>
-        <label><input type="checkbox" class="filtro-stock" value="esgotado" /> Esgotado</label>
-      </div>
-    </aside>
-  
-    <main class="colecao-produtos" id="lista-produtos">
-      <!-- Produtos serão renderizados aqui -->
-    </main>
+    <!-- TOPO MOBILE -->
+<div class="colecao-mobile-topo mobile-only">
+  <h2 id="titulo-colecao-mobile">Coleção</h2>
+  <div class="colecao-mobile-barra">
+    <span id="item-count">0 items</span>
+    <button class="abrir-filtros-mobile" onclick="abrirFiltrosMobile()">
+      <i class="fa-solid fa-sliders"></i> Filtros
+    </button>
   </div>
+</div>
+
+<!-- PAINEL DE FILTROS MOBILE -->
+<div id="painel-filtros-mobile" class="painel-filtros-mobile mobile-only">
+  <div class="painel-cabecalho">
+    <h3>Filtros</h3>
+    <button onclick="fecharFiltrosMobile()">✕</button>
+  </div>
+
+  <div class="painel-conteudo">
+    <div class="painel-ordenar">
+      <label>Ordenar por</label>
+      <select id="sort-by-mobile">
+        <option value="">Selecionar</option>
+        <option value="recentes">Mais recente</option>
+        <option value="maior">Mais caro</option>
+        <option value="menor">Menos caro</option>
+        <option value="promocao">Em promoção</option>
+      </select>
+    </div>
+
+    <div class="painel-filtros">
+      <!-- Inserir aqui os filtros accordion (reuso dos que já tens) -->
+      <div id="filtros-clonados"></div>
+    </div>
+  </div>
+</div>
+
+<div class="barra-topo desktop-only">
+  <div class="barra-topo-titulo">
+    <h2 id="titulo-colecao">Nome da Coleção</h2>
+  </div> <!-- Close barra-topo-titulo here -->
+
+  <div class="acoes-barra-topo">
+    <button id="toggle-filtros" class="btn-toggle-filtros">
+      <i class="fa-solid fa-sliders"></i>
+      <span>Esconder Filtros</span>
+    </button>
+
+    <div class="sort-by-wrapper" id="sortDropdown">
+      <button class="sort-trigger">
+        Ordenar
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <ul class="sort-options hidden">
+        <li data-sort="recentes">Mais recente</li>
+        <li data-sort="maior">Mais caro</li>
+        <li data-sort="menor">Menos caro</li>
+        <li data-sort="promocao">Em promoção</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    
+    <div class="colecao-container">
+      <aside class="colecao-filtros" id="filtros">
+        <div class="filtro-acordeao">
+      
+          <button class="filtro-titulo">
+            <span>Preço</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="filtro-opcoes">
+            <label><input type="checkbox" class="filtro-preco" value="0-15"> 0€ - 15€</label>
+            <label><input type="checkbox" class="filtro-preco" value="15-30"> 15€ - 30€</label>
+            <label><input type="checkbox" class="filtro-preco" value="30-50"> 30€ - 50€</label>
+            <label><input type="checkbox" class="filtro-preco" value="50+"> 50€+</label>
+          </div>
+      
+          <button class="filtro-titulo">
+            <span>Cor</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="filtro-opcoes" id="filtro-cor">
+            <!-- preenchido automaticamente -->
+          </div>
+      
+          <button class="filtro-titulo">
+            <span>Tamanho</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="filtro-opcoes" id="filtro-tamanho">
+            <!-- preenchido futuramente -->
+          </div>
+      
+          <button class="filtro-titulo">
+            <span>Disponibilidade</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="filtro-opcoes">
+            <label><input type="checkbox" class="filtro-stock" value="disponivel"> Disponível</label>
+            <label><input type="checkbox" class="filtro-stock" value="esgotado"> Esgotado</label>
+          </div>
+      
+        </div>
+      </aside>
+    
+      <main class="colecao-produtos" id="lista-produtos">
+        <!-- Produtos renderizados aqui -->
+      </main>
+    </div>
+    
 
   <footer>
 
@@ -204,86 +288,100 @@
     </div>
   </footer>
 
-  <div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-      <h3>O Meu Carrinho</h3>
-      <button onclick="toggleCart()" class="close-cart">&times;</button>
-    </div>
-    <div class="cart-content">
-      <p>O seu carrinho está vazio.</p>
-    </div>
-  </div>
 
-  
+<!-- BACKDROP MOBILE -->
+ <script>
+function abrirFiltrosMobile() {
+  document.getElementById("painel-filtros-mobile").classList.add("ativo");
+}
+
+function fecharFiltrosMobile() {
+  document.getElementById("painel-filtros-mobile").classList.remove("ativo");
+}
+
+// Atualiza número de itens
+function atualizarContagemItens(n) {
+  document.getElementById("item-count").textContent = `${n} items`;
+}
+
+// Clona os filtros do desktop para o painel mobile
+function clonarFiltrosMobile() {
+  const filtrosDesktop = document.querySelector("#filtros .filtro-acordeao");
+  const destino = document.getElementById("filtros-clonados");
+  if (filtrosDesktop && destino) {
+    destino.innerHTML = filtrosDesktop.outerHTML;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  clonarFiltrosMobile();
+});
+</script>
+
 <!-- SCRIPT PRODUTOS -->
 <script>
+// Abre e fecha os filtros
+document.querySelectorAll(".filtro-titulo").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const opcoes = btn.nextElementSibling;
+    opcoes.classList.toggle("ativo");
+    btn.classList.toggle("aberto");
+  });
+});
+
+// Preencher filtro de cor automaticamente com base nas variações
+fetch("produtos.json")
+  .then(res => res.json())
+  .then(produtos => {
+    const coresSet = new Set();
+    produtos.forEach(p => {
+      (p.variacoes || []).forEach(v => {
+        if (v.cor) coresSet.add(v.cor);
+      });
+    });
+
+    const filtroCor = document.getElementById("filtro-cor");
+    coresSet.forEach(cor => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="checkbox" class="filtro-cor" value="${cor}"> ${cor}`;
+      filtroCor.appendChild(label);
+    });
+  });
+
   const urlParams = new URLSearchParams(window.location.search);
   const colecaoAtual = urlParams.get('colecao') || "urban";
   const container = document.getElementById("lista-produtos");
-  const precoRange = document.getElementById("precoRange");
-  const precoLabel = document.getElementById("preco-valor");
-  const btnFiltros = document.getElementById("abrir-filtros");
-  const sidebar = document.querySelector(".colecao-filtros");
-
-  let produtosOriginal = [];
+  const titulo = document.getElementById("titulo-colecao");
 
   fetch("produtos.json")
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao carregar produtos.json");
-      return response.json();
-    })
-    .then(produtos => {
-      produtosOriginal = produtos.filter(p => {
-        return Array.isArray(p.colecao)
-          ? p.colecao.includes(colecaoAtual)
-          : p.colecao === colecaoAtual;
-      });
-
-      aplicarFiltros();
-      document.querySelectorAll('.filtro-stock, .filtro-tipo').forEach(cb => {
-        cb.addEventListener('change', aplicarFiltros);
-      });
-      precoRange.addEventListener('input', () => {
-        precoLabel.textContent = precoRange.value;
-        aplicarFiltros();
-      });
-    })
-    .catch(error => {
-      container.innerHTML = "<p>Erro ao carregar os produtos.</p>";
-      console.error("Erro ao buscar produtos.json:", error);
-    });
-
-  function aplicarFiltros() {
-    const precoMax = parseFloat(precoRange.value);
-    const tiposSelecionados = [...document.querySelectorAll('.filtro-tipo:checked')].map(cb => cb.value);
-    const stockSelecionado = [...document.querySelectorAll('.filtro-stock:checked')].map(cb => cb.value);
-
-    const filtrados = produtosOriginal.filter(produto => {
-      const precoNum = parseFloat(produto.preco.replace(",", ".").replace("€", ""));
-      const tipo = (produto.maincollection || "").toLowerCase();
-      const stock = "disponivel"; // simulado, ajustar depois com campo real
-
-      if (precoNum > precoMax) return false;
-      if (tiposSelecionados.length && !tiposSelecionados.includes(tipo)) return false;
-      if (stockSelecionado.length && !stockSelecionado.includes(stock)) return false;
-
-      return true;
-    });
-
-    renderizarProdutos(filtrados);
-  }
+  .then(res => res.json())
+  .then(produtos => {
+    const filtered = produtos.filter(p => 
+      Array.isArray(p.colecao) 
+        ? p.colecao.includes(colecaoAtual) 
+        : p.colecao === colecaoAtual
+    );
+    if (titulo) titulo.textContent = `${colecaoAtual.charAt(0).toUpperCase() + colecaoAtual.slice(1)} (${filtered.length})`;
+    renderizarProdutos(filtered);
+  })
+  .catch(err => console.error("Error loading products:", err));
 
   function renderizarProdutos(produtos) {
     container.innerHTML = "";
     produtos.forEach(produto => {
       const div = document.createElement("div");
-      div.classList.add("produto");
+        div.classList.add("produto");
+        div.style.cursor = "pointer";
+        div.onclick = () => {
+      window.location.href = `produto.html?produto=${produto.slug}`;
+};
 
       const variacoes = (produto.variacoes || []).map(v => `
         <img src="${v.imagem}" alt="${v.cor}" onclick="this.closest('.produto').querySelector('img').src='${v.imagem}'" />
       `).join("");
 
       div.innerHTML = `
+        <a href="produto.html?produto=${produto.slug}" class="link-produto">
         <img src="${produto.imagem}" alt="${produto.nome}">
         <h3>${produto.nome}</h3>
         <p>${produto.descricao}</p>
@@ -294,8 +392,50 @@
     });
   }
 
-  btnFiltros.addEventListener("click", () => {
-    sidebar.classList.toggle("ativo");
+  document.getElementById("toggle-filtros").addEventListener("click", () => {
+  const filtros = document.getElementById("filtros");
+  const container = document.querySelector(".colecao-container");
+  const produtos = document.querySelector(".colecao-produtos");
+
+  // Força um reflow para resetar o layout antes da transição
+  produtos.style.display = "none";
+  void produtos.offsetWidth; // trigger reflow
+  produtos.style.display = "";
+
+  filtros.classList.toggle("hidden");
+  container.classList.toggle("filtros-escondidos");
+
+  document.getElementById("toggle-filtros").querySelector("span").innerText =
+    filtros.classList.contains("hidden") ? "Mostrar Filtros" : "Esconder Filtros";
+});
+
+  // Custom dropdown
+  const sortTrigger = document.querySelector('.sort-trigger');
+  const sortOptions = document.querySelector('.sort-options');
+
+  sortTrigger.addEventListener('click', () => {
+    sortOptions.classList.toggle('hidden');
+  });
+
+  sortOptions.querySelectorAll('li').forEach(option => {
+    option.addEventListener('click', (e) => {
+      const valor = e.target.dataset.sort;
+      sortOptions.classList.add('hidden');
+
+      let produtosOrdenados = [...produtosOriginal];
+
+      if (valor === "maior") {
+        produtosOrdenados.sort((a, b) => parseFloat(b.preco.replace(",", ".")) - parseFloat(a.preco.replace(",", ".")));
+      } else if (valor === "menor") {
+        produtosOrdenados.sort((a, b) => parseFloat(a.preco.replace(",", ".")) - parseFloat(b.preco.replace(",", ".")));
+      } else if (valor === "recentes") {
+        produtosOrdenados = produtosOrdenados.reverse(); // Simulação
+      } else if (valor === "promocao") {
+        produtosOrdenados = produtosOrdenados.filter(p => p.promocao);
+      }
+
+      renderizarProdutos(produtosOrdenados);
+    });
   });
 </script>
     <!-- SCRIPT MENU -->
@@ -346,12 +486,19 @@
         // Toggle lupa
       });
       function toggleSearch() {
-      document.getElementById("searchOverlay").classList.add("show");
-    }
-    
-    function fecharPesquisa() {
-      document.getElementById("searchOverlay").classList.remove("show");
-    }
+  document.getElementById("searchOverlay").classList.add("show");
+  document.getElementById("searchBackdrop").classList.add("show");
+}
+
+function fecharPesquisa() {
+  document.getElementById("searchOverlay").classList.remove("show");
+  document.getElementById("searchBackdrop").classList.remove("show");
+}
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("titulo-colecao-mobile").textContent = colecaoAtual;
+  document.getElementById("item-count").textContent = `${produtos.length} produtos`;
+});
+
       </script>
 
   

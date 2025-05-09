@@ -181,20 +181,45 @@
     }
     
     async function renderProduto() {
-      const nomeProduto = decodeURIComponent(getQueryParam('nome'));
+      const slug = getQueryParam('produto');
       const container = document.getElementById("pagina-produto");
     
       try {
         const response = await fetch('produtos.json');
         const produtos = await response.json();
-        const produto = produtos.find(p => p.nome === nomeProduto);
-        setTimeout(() => {
-        document.querySelectorAll('.accordion-header').forEach(header => {
-        header.addEventListener('click', () => {
-        header.parentElement.classList.toggle('open');
-    });
+        const produto = produtos.find(p => p.slug === slug);
+// Inicializa os accordions corretamente
+document.querySelectorAll('.accordion').forEach(accordion => {
+  const header = accordion.querySelector('.accordion-header');
+  const content = accordion.querySelector('.accordion-content');
+  const seta = header.querySelector('.seta');
+
+  // Inicia fechado
+  content.style.height = '0px';
+  content.style.overflow = 'hidden';
+
+  header.addEventListener('click', () => {
+    const isOpen = accordion.classList.contains('open');
+
+    if (isOpen) {
+      content.style.height = `${content.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        content.style.height = '0px';
+      });
+      if (seta) seta.style.transform = 'rotate(45deg)';
+      accordion.classList.remove('open');
+    } else {
+      content.style.height = `${content.scrollHeight}px`;
+      accordion.classList.add('open');
+      if (seta) seta.style.transform = 'rotate(-135deg)';
+      content.addEventListener('transitionend', function handler() {
+        content.style.height = 'auto';
+        content.removeEventListener('transitionend', handler);
+      });
+    }
   });
-}, 0);
+});
+
         if (!produto) {
           container.innerHTML = "<p>Produto não encontrado.</p>";
           return;
@@ -498,10 +523,12 @@ pontos.forEach((ponto, i) => {
       });
       function toggleSearch() {
   document.getElementById("searchOverlay").classList.add("show");
+  document.getElementById("searchBackdrop").classList.add("show");
 }
 
 function fecharPesquisa() {
   document.getElementById("searchOverlay").classList.remove("show");
+  document.getElementById("searchBackdrop").classList.remove("show");
 }
 
   </script>

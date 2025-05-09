@@ -1,6 +1,7 @@
 [
     {
       "nome": "Chapéu Urbano",
+      "slug": "chapeu-urbano",
       "descricao": "Design moderno para o dia a dia.",
       "material": "100% Algodão",
       "maincollection": "Cap",
@@ -10,7 +11,9 @@
         "img/denimtrucker.jpg"
       ],
       "preco": "29,95€",
-      "colecao": ["cap", "New"],
+      "colecao": ["cap", "New","All"],
+      "stock": "disponivel",
+      "promocao": true,
       "variacoes": [
       {
         "cor": "Preto",
@@ -31,6 +34,7 @@
     },
     {
       "nome": "Driven",
+      "slug": "driven",
       "descricao": "Elegância e estilo em cada detalhe.",
       "material": "100% Algodão",
       "maincollection": "Cap",
@@ -42,6 +46,8 @@
       ],
       "preco": "29,95€",
       "colecao": ["cap", "New"],
+      "stock": "disponivel",
+      "promocao": true,
       "variacoes": [
       {
         "cor": "Bege",
@@ -62,6 +68,7 @@
     },
     {
       "nome": "Chapéu Exclusivo",
+      "slug": "chapeu-exclusivo",
       "descricao": "Peça única para quem busca autenticidade.",
       "material": "100% Algodão",
       "maincollection": "Cap",
@@ -72,6 +79,8 @@
       ],
       "preco": "29,95€",
       "colecao": ["cap", "New"],
+      "stock": "disponivel",
+      "promocao": true,
       "variacoes": [
       {
         "cor": "Preto",
