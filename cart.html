@@ -56,20 +56,41 @@
   </header>
 
   <section class="cart-page">
-    <div class="container">
-      <h1>O Meu Carrinho</h1>
-      <p><a href="index.html">Início</a> > Carrinho</p>
-
-      <div class="cart-items" id="cart-items">
-        <!-- Itens do carrinho serão inseridos aqui via JavaScript -->
+    <div class="cart-grid">
+      
+      <div class="cart-left">
+        <h2>Bag</h2>
+        <div class="cart-items" id="cart-items">
+          <!-- Produtos inseridos por JS -->
+        </div>
       </div>
-
-      <div class="cart-summary">
-        <h3>Total: <span id="cart-total">R$ 0,00</span></h3>
-        <a href="checkout.html" class="btn">Finalizar Compra</a>
+  
+      <div class="cart-right">
+        <h2>Summary</h2>
+  
+        <div class="cart-summary-info">
+          <div class="linha">
+            <span>Subtotal</span>
+            <span id="subtotal">–</span>
+          </div>
+          <div class="linha">
+            <span>Estimated Delivery</span>
+            <span>Free</span>
+          </div>
+          <hr />
+          <div class="linha total">
+            <span>Total</span>
+            <span id="total">–</span>
+          </div>
+        </div>
+  
+        <a href="checkout.html" class="btn-checkout">Checkout</a>
+        <button class="btn-paypal">PayPal</button>
       </div>
+  
     </div>
   </section>
+  
 
   <footer>
     <hr class="separador">
@@ -202,26 +223,35 @@
         const div = document.createElement("div");
         div.classList.add("produto");
         div.innerHTML = `
-          <img src="${produto.imagem}" alt="${produto.nome}">
-          <div>
-            <h3>${produto.nome}</h3>
-            <p>Preço unitário: € ${produto.preco.toFixed(2).replace('.', ',')}</p>
-            <label>Qtd: <input type="number" min="1" value="${produto.quantidade}" data-index="${index}" class="qtd-input"></label>
-            <button data-index="${index}" class="remover-btn">Remover</button>
-            <p><strong>Subtotal: € ${(produto.preco * produto.quantidade).toFixed(2).replace('.', ',')}</strong></p>
-          </div>
-        `;
+  <div class="produto-detalhe">
+    <img src="${produto.imagem}" alt="${produto.nome}">
+    <div class="info">
+      <div class="topo">
+        <div class="nome-preco">
+          <strong>${produto.nome}</strong>
+          <span class="preco">€ ${produto.preco.toFixed(2).replace('.', ',')}</span>
+        </div>
+        <p class="desc">${produto.descricao || ''}</p>
+        <p class="extra">Tamanho: ${produto.tamanho || 'Único'}</p>
+      </div>
+
+      <div class="acoes">
+        <button class="btn-circular remover-btn" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
+        <input type="number" min="1" value="${produto.quantidade}" data-index="${index}" class="qtd-input" />
+        <button class="btn-circular favorito"><i class="far fa-heart"></i></button>
+      </div>
+    </div>
+  </div>
+`;
+
         itemsContainer.appendChild(div);
         subtotal += produto.preco * produto.quantidade;
       });
 
       const total = subtotal + shipping;
-      document.querySelector(".cart-summary").innerHTML = `
-        <p>Subtotal: € ${subtotal.toFixed(2).replace('.', ',')}</p>
-        <p>Envio: € ${shipping.toFixed(2).replace('.', ',')}</p>
-        <h3>Total: € ${total.toFixed(2).replace('.', ',')}</h3>
-        <a href="#" class="btn">Finalizar Compra</a> 
-      `;
+      document.getElementById("subtotal").textContent = `€ ${subtotal.toFixed(2).replace('.', ',')}`;
+      document.getElementById("total").textContent = `€ ${(subtotal + 0).toFixed(2).replace('.', ',')}`;
+
     }
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
