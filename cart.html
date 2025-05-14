@@ -90,7 +90,13 @@
   
     </div>
   </section>
-  
+
+  <section class="recomendados">
+    <h2>Também Pode Gostar</h2>
+    <div class="carrossel-recomendados" id="recomendados-container"></div>
+  </section>
+
+
 
   <footer>
     <hr class="separador">
@@ -277,6 +283,38 @@
     });
   });
     </script>
+    <!-- SCRIPT RECOMENDADOS -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("produtos.json")
+          .then(res => res.json())
+          .then(produtos => {
+            const container = document.getElementById("recomendados-container");
+            if (!container) return;
+      
+            const embaralhado = produtos.sort(() => 0.5 - Math.random());
+            const selecionados = embaralhado.slice(0, 4);
+      
+            selecionados.forEach(p => {
+              const div = document.createElement("div");
+              div.classList.add("produto");
+              div.innerHTML = `
+                <a href="produto.html?produto=${encodeURIComponent(p.slug)}">
+                   <img src="${p.imagem}" alt="${p.nome}">
+                </a>
+                  <div class="info-produto">
+                    <h4>${p.nome}</h4>
+                    <div class="colecao">${p.maincollection}</div>
+                    <div class="preco">${p.preco}</div>
+                  </div>
+              `;
+              container.appendChild(div);
+            });
+          });
+      });
+      </script>
+      
     <!-- SCRIPT MENU -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
